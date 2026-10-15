@@ -3,16 +3,25 @@
 import * as React from "react";
 import { useParams } from "next/navigation";
 import {
+  KeyRound,
+  Pencil,
+  Smartphone,
+  UserCog,
+} from "lucide-react";
+import {
+  ActionMenu,
   Avatar,
   Badge,
-  Button,
+  DefinitionList,
   DetailPane,
+  DetailToolbar,
   EmptyState,
   ListItem,
   ListPane,
   SectionCard,
   Tabs,
   TabPanel,
+  ToolbarAction,
   useToast,
 } from "@/components/ui";
 import { useConsole } from "@/lib/console-store";
@@ -67,7 +76,7 @@ function UsersConsoleBody() {
       addLabel="Add"
     >
       {filtered.length === 0 ? (
-        <EmptyState message="No users match your search." />
+        <EmptyState message="No users match your search." density="compact" />
       ) : (
         filtered.map((u) => (
           <ListItem
@@ -100,6 +109,67 @@ function UsersConsoleBody() {
             />
           ) : undefined
         }
+        toolbar={
+          selected ? (
+            <DetailToolbar
+              moreSlot={
+                <ActionMenu
+                  label="More user actions"
+                  items={[
+                    {
+                      id: "edit-info",
+                      label: "Edit Info",
+                      icon: <UserCog className="h-4 w-4" />,
+                      onSelect: () =>
+                        toast({
+                          title: "Edit Info",
+                          description: "Edit form would open (demo).",
+                        }),
+                    },
+                    {
+                      id: "deactivate",
+                      label: "Deactivate User",
+                      destructive: true,
+                      onSelect: () =>
+                        toast({
+                          title: "Deactivate",
+                          description: "User would be deactivated (demo).",
+                          variant: "warning",
+                        }),
+                    },
+                  ]}
+                />
+              }
+            >
+              <ToolbarAction
+                label="Edit"
+                icon={<Pencil className="h-4 w-4" />}
+                onClick={() =>
+                  toast({
+                    title: "Edit",
+                    description: "User edit sheet would open (demo).",
+                  })
+                }
+              />
+              <ToolbarAction
+                label="Enroll Devices"
+                icon={<Smartphone className="h-4 w-4" />}
+                onClick={() => setEnrollOpen(true)}
+              />
+              <ToolbarAction
+                label="Create Sign-In"
+                icon={<KeyRound className="h-4 w-4" />}
+                onClick={() =>
+                  toast({
+                    title: "Create Sign-In",
+                    description: "Sign-in token generated (demo).",
+                    variant: "success",
+                  })
+                }
+              />
+            </DetailToolbar>
+          ) : undefined
+        }
         header={
           selected ? (
             <div className="flex flex-wrap items-center gap-4">
@@ -119,11 +189,6 @@ function UsersConsoleBody() {
                   {selected.managedAppleId}@{selected.domain} · {selected.role}
                 </p>
               </div>
-              <div className="ml-auto">
-                <Button variant="primary" onClick={() => setEnrollOpen(true)}>
-                  Enroll devices
-                </Button>
-              </div>
             </div>
           ) : undefined
         }
@@ -139,69 +204,121 @@ function UsersConsoleBody() {
               defaultValue="overview"
             >
               <TabPanel value="overview">
-                <div className="grid gap-4 lg:grid-cols-2">
-                  <SectionCard title="Account">
-                    <dl className="space-y-2 text-sm">
-                      <div className="flex justify-between gap-4">
-                        <dt className="text-foreground-secondary">Email</dt>
-                        <dd>{selected.email}</dd>
-                      </div>
-                      <div className="flex justify-between gap-4">
-                        <dt className="text-foreground-secondary">Location</dt>
-                        <dd>{selected.location}</dd>
-                      </div>
-                      <div className="flex justify-between gap-4">
-                        <dt className="text-foreground-secondary">Role</dt>
-                        <dd>{selected.role}</dd>
-                      </div>
-                    </dl>
-                  </SectionCard>
-                  <SectionCard title="Organization">
-                    <dl className="space-y-2 text-sm">
-                      <div className="flex justify-between gap-4">
-                        <dt className="text-foreground-secondary">
-                          Person number
-                        </dt>
-                        <dd>{selected.personNumber ?? "—"}</dd>
-                      </div>
-                      <div className="flex justify-between gap-4">
-                        <dt className="text-foreground-secondary">
-                          Cost center
-                        </dt>
-                        <dd>{selected.costCenter ?? "—"}</dd>
-                      </div>
-                      <div className="flex justify-between gap-4">
-                        <dt className="text-foreground-secondary">Division</dt>
-                        <dd>{selected.division ?? "—"}</dd>
-                      </div>
-                      <div className="flex justify-between gap-4">
-                        <dt className="text-foreground-secondary">
-                          Department
-                        </dt>
-                        <dd>{selected.department ?? "—"}</dd>
-                      </div>
-                    </dl>
-                  </SectionCard>
+                <div className="space-y-4">
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    <SectionCard title="Account">
+                      <DefinitionList
+                        items={[
+                          {
+                            label: "Email",
+                            value: selected.email,
+                            copyValue: selected.email,
+                          },
+                          { label: "Location", value: selected.location },
+                          { label: "Role", value: selected.role },
+                        ]}
+                      />
+                    </SectionCard>
+                    <SectionCard title="Organization">
+                      <DefinitionList
+                        items={[
+                          {
+                            label: "Person number",
+                            value: selected.personNumber ?? "—",
+                          },
+                          {
+                            label: "Cost center",
+                            value: selected.costCenter ?? "—",
+                          },
+                          {
+                            label: "Division",
+                            value: selected.division ?? "—",
+                          },
+                          {
+                            label: "Department",
+                            value: selected.department ?? "—",
+                          },
+                        ]}
+                      />
+                    </SectionCard>
+                  </div>
+
+                  <SectionCard
+                    title="Devices"
+                    density="compact"
+                    empty={
+                      <EmptyState
+                        density="compact"
+                        message="No devices assigned."
+                      />
+                    }
+                  />
+                  <SectionCard
+                    title="User Groups"
+                    density="compact"
+                    empty={
+                      <EmptyState
+                        density="compact"
+                        message="No User Groups"
+                      />
+                    }
+                  />
+                  <SectionCard
+                    title="Settings"
+                    density="compact"
+                    href="/settings"
+                    empty={
+                      <EmptyState
+                        density="compact"
+                        message="No Settings Added"
+                        linkHref="/settings"
+                        linkLabel="Go to Settings"
+                      />
+                    }
+                  />
+                  <SectionCard
+                    title="Activity"
+                    density="compact"
+                    empty={
+                      <EmptyState
+                        density="compact"
+                        message="No recent activity."
+                      />
+                    }
+                  />
                 </div>
               </TabPanel>
               <TabPanel value="devices">
-                <SectionCard title="Assigned devices">
-                  <EmptyState message="No devices assigned yet." />
-                </SectionCard>
+                <SectionCard
+                  title="Assigned devices"
+                  density="compact"
+                  empty={
+                    <EmptyState
+                      density="compact"
+                      message="No devices assigned yet."
+                    />
+                  }
+                />
                 <div className="mt-3">
-                  <Button
-                    variant="secondary"
+                  <ToolbarAction
+                    label="Enroll Devices"
+                    icon={<Smartphone className="h-4 w-4" />}
                     onClick={() => setEnrollOpen(true)}
-                  >
-                    Enroll devices
-                  </Button>
+                  />
                 </div>
               </TabPanel>
               <TabPanel value="info">
                 <SectionCard title="Managed Apple ID">
-                  <p className="text-sm text-foreground-secondary">
-                    {selected.managedAppleId}@{selected.domain}
-                  </p>
+                  <DefinitionList
+                    items={[
+                      {
+                        label: "Managed Apple ID",
+                        value: `${selected.managedAppleId}@${selected.domain}`,
+                        copyValue: `${selected.managedAppleId}@${selected.domain}`,
+                      },
+                      { label: "Status", value: selected.status },
+                    ]}
+                  />
                 </SectionCard>
               </TabPanel>
             </Tabs>

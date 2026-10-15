@@ -4,17 +4,22 @@ import * as React from "react";
 import { useParams } from "next/navigation";
 import {
   Eraser,
+  Info,
   Lock,
   LogOut,
   MonitorSmartphone,
+  RefreshCw,
 } from "lucide-react";
 import {
+  ActionMenu,
   Badge,
   ConfirmDialog,
+  DefinitionList,
   DetailPane,
   DetailToolbar,
   EmptyState,
   IconWell,
+  InlineAlert,
   ListItem,
   ListPane,
   ProgressBar,
@@ -78,26 +83,30 @@ function DevicesConsoleBody() {
       }
       addLabel="Add"
     >
-      {filtered.map((d) => (
-        <ListItem
-          key={d.id}
-          href={`/devices/${d.id}`}
-          selected={d.id === selectedId}
-          title={d.name}
-          subtitle={d.model}
-          statusLabel={
-            d.issues.length > 0 ? `${d.issues.length}` : d.status
-          }
-          statusVariant={
-            d.issues.length > 0 ? "error" : deviceStatusVariant(d.status)
-          }
-          leading={
-            <IconWell size="sm">
-              <MonitorSmartphone className="h-4 w-4" />
-            </IconWell>
-          }
-        />
-      ))}
+      {filtered.length === 0 ? (
+        <EmptyState message="No devices match your search." density="compact" />
+      ) : (
+        filtered.map((d) => (
+          <ListItem
+            key={d.id}
+            href={`/devices/${d.id}`}
+            selected={d.id === selectedId}
+            title={d.name}
+            subtitle={d.model}
+            statusLabel={
+              d.issues.length > 0 ? `${d.issues.length}` : d.status
+            }
+            statusVariant={
+              d.issues.length > 0 ? "error" : deviceStatusVariant(d.status)
+            }
+            leading={
+              <IconWell size="sm">
+                <MonitorSmartphone className="h-4 w-4" />
+              </IconWell>
+            }
+          />
+        ))
+      )}
     </ListPane>
   );
 
@@ -117,6 +126,33 @@ function DevicesConsoleBody() {
         toolbar={
           selected ? (
             <DetailToolbar
+              moreSlot={
+                <ActionMenu
+                  label="More device actions"
+                  items={[
+                    {
+                      id: "refresh",
+                      label: "Refresh Inventory",
+                      icon: <RefreshCw className="h-4 w-4" />,
+                      onSelect: () =>
+                        toast({
+                          title: "Refreshing",
+                          description: "Inventory refresh queued (demo).",
+                        }),
+                    },
+                    {
+                      id: "about",
+                      label: "About This Device",
+                      icon: <Info className="h-4 w-4" />,
+                      onSelect: () =>
+                        toast({
+                          title: selected.name,
+                          description: selected.serialNumber,
+                        }),
+                    },
+                  ]}
+                />
+              }
               destructiveSlot={
                 <ToolbarAction
                   label="Erase"
@@ -192,29 +228,32 @@ function DevicesConsoleBody() {
             >
               <TabPanel value="overview">
                 <div className="space-y-4">
+                  {selected.issues.length > 0 && (
+                    <InlineAlert
+                      tone="warning"
+                      title={`${selected.issues.length} issue${selected.issues.length > 1 ? "s" : ""} need attention`}
+                    >
+                      Review status below and apply recommended settings.
+                    </InlineAlert>
+                  )}
+
                   <SectionCard title="Details">
-                    <dl className="grid gap-2 text-sm sm:grid-cols-2">
-                      <div>
-                        <dt className="text-foreground-secondary">Serial</dt>
-                        <dd className="font-medium">{selected.serialNumber}</dd>
-                      </div>
-                      <div>
-                        <dt className="text-foreground-secondary">
-                          Assigned user
-                        </dt>
-                        <dd className="font-medium">
-                          {selected.assignedUserName ?? "Unassigned"}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="text-foreground-secondary">Platform</dt>
-                        <dd className="font-medium">{selected.platform}</dd>
-                      </div>
-                      <div>
-                        <dt className="text-foreground-secondary">OS</dt>
-                        <dd className="font-medium">{selected.osVersion}</dd>
-                      </div>
-                    </dl>
+                    <DefinitionList
+                      layout="grid"
+                      items={[
+                        {
+                          label: "Serial",
+                          value: selected.serialNumber,
+                          copyValue: selected.serialNumber,
+                        },
+                        {
+                          label: "Assigned user",
+                          value: selected.assignedUserName ?? "Unassigned",
+                        },
+                        { label: "Platform", value: selected.platform },
+                        { label: "OS", value: selected.osVersion },
+                      ]}
+                    />
                   </SectionCard>
 
                   <SectionCard title="Status">
@@ -263,25 +302,31 @@ function DevicesConsoleBody() {
                     title="Assigned Apps"
                     href="/apps"
                     linkLabel="Manage"
-                  >
-                    <EmptyState
-                      message="No apps assigned to this device."
-                      linkHref="/apps"
-                      linkLabel="Go to Apps"
-                    />
-                  </SectionCard>
+                    density="compact"
+                    empty={
+                      <EmptyState
+                        density="compact"
+                        message="No apps assigned to this device."
+                        linkHref="/apps"
+                        linkLabel="Go to Apps"
+                      />
+                    }
+                  />
 
                   <SectionCard
                     title="Assigned Settings"
                     href="/settings"
                     linkLabel="Manage"
-                  >
-                    <EmptyState
-                      message="No settings assigned yet."
-                      linkHref="/settings"
-                      linkLabel="Go to Settings"
-                    />
-                  </SectionCard>
+                    density="compact"
+                    empty={
+                      <EmptyState
+                        density="compact"
+                        message="No settings assigned yet."
+                        linkHref="/settings"
+                        linkLabel="Go to Settings"
+                      />
+                    }
+                  />
 
                   <SectionCard title="Device Storage">
                     <ProgressBar
@@ -294,28 +339,47 @@ function DevicesConsoleBody() {
               </TabPanel>
               <TabPanel value="details">
                 <SectionCard title="Hardware">
-                  <p className="text-sm text-foreground-secondary">
-                    {selected.model} · Serial {selected.serialNumber}
-                  </p>
+                  <DefinitionList
+                    items={[
+                      { label: "Model", value: selected.model },
+                      {
+                        label: "Serial",
+                        value: selected.serialNumber,
+                        copyValue: selected.serialNumber,
+                      },
+                      { label: "Platform", value: selected.platform },
+                      { label: "OS version", value: selected.osVersion },
+                    ]}
+                  />
                 </SectionCard>
               </TabPanel>
               <TabPanel value="apps">
-                <SectionCard title="Apps">
-                  <EmptyState
-                    message="No apps assigned."
-                    linkHref="/apps"
-                    linkLabel="Go to Apps"
-                  />
-                </SectionCard>
+                <SectionCard
+                  title="Apps"
+                  density="compact"
+                  empty={
+                    <EmptyState
+                      density="compact"
+                      message="No apps assigned."
+                      linkHref="/apps"
+                      linkLabel="Go to Apps"
+                    />
+                  }
+                />
               </TabPanel>
               <TabPanel value="settings">
-                <SectionCard title="Settings">
-                  <EmptyState
-                    message="No settings assigned."
-                    linkHref="/settings"
-                    linkLabel="Go to Settings"
-                  />
-                </SectionCard>
+                <SectionCard
+                  title="Settings"
+                  density="compact"
+                  empty={
+                    <EmptyState
+                      density="compact"
+                      message="No settings assigned."
+                      linkHref="/settings"
+                      linkLabel="Go to Settings"
+                    />
+                  }
+                />
               </TabPanel>
             </Tabs>
           ) : undefined

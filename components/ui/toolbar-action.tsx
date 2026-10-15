@@ -4,17 +4,20 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
-const toolbarActionVariants = cva("", {
-  variants: {
-    tone: {
-      default: "",
-      destructive: "",
+const toolbarActionVariants = cva(
+  "flex-col sm:flex-row h-auto gap-1 sm:gap-2 px-2.5 py-1.5",
+  {
+    variants: {
+      tone: {
+        default: "text-foreground-secondary hover:text-foreground",
+        destructive: "text-danger hover:bg-danger-muted hover:text-danger",
+      },
     },
-  },
-  defaultVariants: {
-    tone: "default",
-  },
-});
+    defaultVariants: {
+      tone: "default",
+    },
+  }
+);
 
 export interface ToolbarActionProps
   extends VariantProps<typeof toolbarActionVariants> {
@@ -26,6 +29,7 @@ export interface ToolbarActionProps
   className?: string;
 }
 
+/** Icon-above-label on mobile, icon+label inline on sm+ — ABM detail chrome. */
 export function ToolbarAction({
   label,
   icon,
@@ -37,21 +41,20 @@ export function ToolbarAction({
   return (
     <Button
       type="button"
-      variant={destructive ? "ghost" : "ghost"}
+      variant="ghost"
       size="sm"
       disabled={disabled}
       onClick={onClick}
-      leftIcon={icon}
       className={cn(
-        toolbarActionVariants({ tone: destructive ? "destructive" : "default" }),
-        destructive
-          ? "text-danger hover:bg-danger-muted hover:text-danger"
-          : "text-foreground-secondary hover:text-foreground",
+        toolbarActionVariants({
+          tone: destructive ? "destructive" : "default",
+        }),
         className
       )}
       aria-label={label}
     >
-      <span className="hidden sm:inline">{label}</span>
+      <span className="[&>svg]:h-4 [&>svg]:w-4">{icon}</span>
+      <span className="text-xs font-medium sm:text-sm">{label}</span>
     </Button>
   );
 }

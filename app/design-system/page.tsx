@@ -6,24 +6,31 @@ import {
   AlertTriangle,
   Copy,
   Eraser,
+  KeyRound,
   Lock,
+  Pencil,
   Plus,
+  Smartphone,
 } from "lucide-react";
 import {
+  ActionMenu,
   Avatar,
   Badge,
   Banner,
   Button,
   ConfirmDialog,
+  DefinitionList,
   DetailToolbar,
   Dialog,
   DomainSelect,
   EmptyState,
   FormField,
   IconWell,
+  InlineAlert,
   Input,
   ListItem,
   ProgressBar,
+  SearchField,
   SectionCard,
   Select,
   SelectableCard,
@@ -65,6 +72,7 @@ export default function DesignSystemPage() {
   const [domain, setDomain] = React.useState("managed.acme.com");
   const [cardA, setCardA] = React.useState(true);
   const [cardB, setCardB] = React.useState(false);
+  const [search, setSearch] = React.useState("");
 
   return (
     <div className="min-h-dvh bg-canvas">
@@ -132,7 +140,7 @@ export default function DesignSystemPage() {
           </div>
         </CatalogSection>
 
-        <CatalogSection title="FormField · Input · Select · DomainSelect">
+        <CatalogSection title="FormField · Input · Select · DomainSelect · SearchField">
           <div className="grid max-w-xl gap-4">
             <FormField id="ds-name" label="First name" required hint="As shown on ID">
               <Input placeholder="Jordan" />
@@ -160,6 +168,48 @@ export default function DesignSystemPage() {
                 onDomainChange={setDomain}
               />
             </FormField>
+            <SearchField
+              value={search}
+              onValueChange={setSearch}
+              placeholder="Search users"
+            />
+          </div>
+        </CatalogSection>
+
+        <CatalogSection
+          title="DefinitionList"
+          description="Label/value rows with optional copy — used in Users/Devices Overview."
+        >
+          <DefinitionList
+            items={[
+              {
+                label: "Email",
+                value: "jordan.lee@managed.acme.com",
+                copyValue: "jordan.lee@managed.acme.com",
+              },
+              { label: "Location", value: "HQ — San Francisco" },
+              { label: "Role", value: "Staff" },
+            ]}
+          />
+        </CatalogSection>
+
+        <CatalogSection
+          title="InlineAlert"
+          description="Soft info / success / warning / error banners inside detail sections."
+        >
+          <div className="space-y-3">
+            <InlineAlert tone="info" title="Enrollment pending">
+              Invite the user to complete Managed Apple ID setup.
+            </InlineAlert>
+            <InlineAlert tone="warning" title="2 issues need attention">
+              Review Firewall and FileVault status below.
+            </InlineAlert>
+            <InlineAlert tone="error" title="Erase failed">
+              Device was offline when the command was sent.
+            </InlineAlert>
+            <InlineAlert tone="success" title="Settings applied">
+              Firewall is now enforced on this device.
+            </InlineAlert>
           </div>
         </CatalogSection>
 
@@ -217,7 +267,10 @@ export default function DesignSystemPage() {
           </div>
         </CatalogSection>
 
-        <CatalogSection title="EmptyState · Banner · SectionCard">
+        <CatalogSection
+          title="EmptyState · Banner · SectionCard"
+          description="EmptyState density=compact and SectionCard density=compact for nested empty groups."
+        >
           <div className="space-y-4">
             <Banner
               title="Get started"
@@ -228,6 +281,25 @@ export default function DesignSystemPage() {
               message="Nothing configured yet."
               linkHref="/settings"
               linkLabel="Go to Settings"
+            />
+            <SectionCard
+              title="User Groups"
+              density="compact"
+              empty={
+                <EmptyState density="compact" message="No User Groups" />
+              }
+            />
+            <SectionCard
+              title="Settings"
+              density="compact"
+              empty={
+                <EmptyState
+                  density="compact"
+                  message="No Settings Added"
+                  linkHref="/settings"
+                  linkLabel="Go to Settings"
+                />
+              }
             />
           </div>
         </CatalogSection>
@@ -259,8 +331,29 @@ export default function DesignSystemPage() {
           </div>
         </CatalogSection>
 
-        <CatalogSection title="DetailToolbar · ToolbarAction">
+        <CatalogSection
+          title="DetailToolbar · ToolbarAction · ActionMenu"
+          description="ABM icon+label actions with More overflow via ActionMenu."
+        >
           <DetailToolbar
+            moreSlot={
+              <ActionMenu
+                items={[
+                  {
+                    id: "edit-info",
+                    label: "Edit Info",
+                    onSelect: () => toast({ title: "Edit Info (demo)" }),
+                  },
+                  {
+                    id: "deactivate",
+                    label: "Deactivate User",
+                    destructive: true,
+                    onSelect: () =>
+                      toast({ title: "Deactivate (demo)", variant: "warning" }),
+                  },
+                ]}
+              />
+            }
             destructiveSlot={
               <ToolbarAction
                 label="Erase"
@@ -270,6 +363,21 @@ export default function DesignSystemPage() {
               />
             }
           >
+            <ToolbarAction
+              label="Edit"
+              icon={<Pencil className="h-4 w-4" />}
+              onClick={() => toast({ title: "Edit (demo)" })}
+            />
+            <ToolbarAction
+              label="Enroll Devices"
+              icon={<Smartphone className="h-4 w-4" />}
+              onClick={() => toast({ title: "Enroll (demo)" })}
+            />
+            <ToolbarAction
+              label="Create Sign-In"
+              icon={<KeyRound className="h-4 w-4" />}
+              onClick={() => toast({ title: "Sign-In (demo)", variant: "success" })}
+            />
             <ToolbarAction
               label="Lock Device"
               icon={<Lock className="h-4 w-4" />}

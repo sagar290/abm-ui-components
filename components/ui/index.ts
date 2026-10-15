@@ -1,3 +1,6 @@
+export { ActionMenu } from "./action-menu";
+export type { ActionMenuProps, ActionMenuItem } from "./action-menu";
+
 export { AppShell } from "./app-shell";
 export type { AppShellProps } from "./app-shell";
 
@@ -18,6 +21,9 @@ export type { ButtonProps } from "./button";
 
 export { ConfirmDialog } from "./confirm-dialog";
 export type { ConfirmDialogProps } from "./confirm-dialog";
+
+export { DefinitionList } from "./definition-list";
+export type { DefinitionListProps, DefinitionItem } from "./definition-list";
 
 export { DetailPane } from "./detail-pane";
 export type { DetailPaneProps } from "./detail-pane";
@@ -43,6 +49,9 @@ export type { FormFieldProps } from "./form-field";
 export { IconWell } from "./icon-well";
 export type { IconWellProps } from "./icon-well";
 
+export { InlineAlert } from "./inline-alert";
+export type { InlineAlertProps } from "./inline-alert";
+
 export { Input, inputVariants } from "./input";
 export type { InputProps } from "./input";
 
@@ -63,6 +72,9 @@ export type { ProgressBarProps } from "./progress-bar";
 
 export { PromoCard } from "./promo-card";
 export type { PromoCardProps } from "./promo-card";
+
+export { SearchField } from "./search-field";
+export type { SearchFieldProps } from "./search-field";
 
 export { SectionCard } from "./section-card";
 export type { SectionCardProps } from "./section-card";

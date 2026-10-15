@@ -1,9 +1,27 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
-export interface SectionCardProps {
+const sectionCardVariants = cva(
+  "rounded-xl border border-border-subtle bg-surface",
+  {
+    variants: {
+      density: {
+        default: "shadow-sm",
+        /** Tighter chrome for nested empty groups */
+        compact: "shadow-none",
+      },
+    },
+    defaultVariants: {
+      density: "default",
+    },
+  }
+);
+
+export interface SectionCardProps
+  extends VariantProps<typeof sectionCardVariants> {
   title: string;
   href?: string;
   linkLabel?: string;
@@ -21,18 +39,27 @@ export function SectionCard({
   children,
   className,
   action,
+  density = "default",
 }: SectionCardProps) {
   const hasContent = Boolean(children) && !empty;
+  const compact = density === "compact";
 
   return (
-    <section
-      className={cn(
-        "rounded-xl border border-border-subtle bg-surface shadow-sm",
-        className
-      )}
-    >
-      <header className="flex items-center justify-between gap-3 border-b border-border-subtle px-4 py-3">
-        <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+    <section className={cn(sectionCardVariants({ density }), className)}>
+      <header
+        className={cn(
+          "flex items-center justify-between gap-3 border-b border-border-subtle",
+          compact ? "px-3 py-2" : "px-4 py-3"
+        )}
+      >
+        <h3
+          className={cn(
+            "font-semibold text-foreground",
+            compact ? "text-xs" : "text-sm"
+          )}
+        >
+          {title}
+        </h3>
         <div className="flex items-center gap-2">
           {action}
           {href && (
@@ -49,7 +76,9 @@ export function SectionCard({
           )}
         </div>
       </header>
-      <div className="p-4">{hasContent ? children : empty}</div>
+      <div className={compact ? "p-2" : "p-4"}>
+        {hasContent ? children : empty}
+      </div>
     </section>
   );
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import { Filter, Plus, ArrowUpDown, Search } from "lucide-react";
+import { Filter, Plus, ArrowUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
-import { Input } from "./input";
+import { SearchField } from "./search-field";
 
 export interface ListPaneProps {
   title?: string;
@@ -45,20 +45,12 @@ export function ListPane({
     >
       <div className="shrink-0 space-y-3 p-3">
         <div className="flex items-center gap-2">
-          <div className="relative min-w-0 flex-1">
-            <Search
-              className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-foreground-muted"
-              aria-hidden
-            />
-            <Input
-              value={searchValue}
-              onChange={(e) => onSearchChange(e.target.value)}
-              placeholder={searchPlaceholder}
-              aria-label={searchPlaceholder}
-              inputSize="sm"
-              className="pl-8 bg-surface-secondary border-transparent focus-visible:bg-surface"
-            />
-          </div>
+          <SearchField
+            value={searchValue}
+            onValueChange={onSearchChange}
+            placeholder={searchPlaceholder}
+            className="flex-1"
+          />
           {onAdd && (
             <Button
               variant="secondary"
