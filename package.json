@@ -1,6 +1,6 @@
 {
   "name": "@abm/ui",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Apple Business–style admin console UI kit (components, tokens, theme). Install from GitHub — no registry server.",
   "license": "UNLICENSED",
   "repository": {

@@ -5,7 +5,8 @@ name: Deploy design catalog to GitHub Pages
 on:
   push:
     tags:
-      - "ui-v*"
+      - "v*"
+      - "*.*.*"
   workflow_dispatch:
 
 permissions:

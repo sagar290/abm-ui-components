@@ -6,10 +6,10 @@ Reusable admin-console UI kit and demo app inspired by Apple Business Manager’
 See **[CONSUMING.md](./CONSUMING.md)** for install via git tag, peer deps, Tailwind wire-up, and the PR checklist.
 
 ```bash
-npm install git+https://github.com/trainsprint/ui-components.git#ui-v0.1.0
+npm install git+https://github.com/trainsprint/ui-components.git#1.1.0
 ```
 
-Living catalog: `/design-system` in this app, or optional [GitHub Pages](./.github/workflows/pages.yml) after enabling Actions as the Pages source.
+Existing remote tags use semver (e.g. `1.0.0`). Living catalog: `/design-system` in this app, or optional [GitHub Pages](./.github/workflows/pages.yml) after enabling Actions as the Pages source.
 
 ## Screenshots
 
@@ -111,12 +111,14 @@ Colors, radius, shadows, and fonts live as CSS variables in `styles/tokens.css` 
 
 ## Releasing the kit
 
+Remote already uses semver tags (`1.0.0`, …). Cut the next version on `main`:
+
 ```bash
-git tag -a ui-v0.1.0 -m "ui-v0.1.0"
-git push origin ui-v0.1.0
+git tag -a 1.1.0 -m "1.1.0"
+git push origin 1.1.0
 ```
 
-Consumers bump the `#ui-v…` pin. Tagging `ui-v*` also deploys the optional Pages catalog when GitHub Pages is set to Actions.
+Consumers bump the `#1.x.x` pin. Pushing a version tag also deploys the optional Pages catalog when GitHub Pages is set to Actions.
 
 ## Accessibility
 
