@@ -130,6 +130,7 @@ function UsersConsoleBody() {
         tabs={
           selected ? (
             <Tabs
+              variant="pane"
               items={[
                 { value: "overview", label: "Overview" },
                 { value: "devices", label: "Devices" },
@@ -206,9 +207,7 @@ function UsersConsoleBody() {
             </Tabs>
           ) : undefined
         }
-      >
-        {null}
-      </DetailPane>
+      />
 
       <AddUserDialog open={addOpen} onOpenChange={setAddOpen} />
       {selected && (

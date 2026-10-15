@@ -181,6 +181,7 @@ function DevicesConsoleBody() {
         tabs={
           selected ? (
             <Tabs
+              variant="pane"
               items={[
                 { value: "overview", label: "Overview" },
                 { value: "details", label: "Details" },
@@ -319,9 +320,7 @@ function DevicesConsoleBody() {
             </Tabs>
           ) : undefined
         }
-      >
-        {null}
-      </DetailPane>
+      />
 
       <ConfirmDialog
         open={eraseOpen}

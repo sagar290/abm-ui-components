@@ -4,7 +4,7 @@ export interface DetailPaneProps {
   toolbar?: React.ReactNode;
   header?: React.ReactNode;
   tabs?: React.ReactNode;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   empty?: React.ReactNode;
 }
@@ -30,6 +30,8 @@ export function DetailPane({
     );
   }
 
+  const hasBody = children != null && children !== false;
+
   return (
     <section
       className={cn(
@@ -44,9 +46,14 @@ export function DetailPane({
         </div>
       )}
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {header && <div className="border-b border-border-subtle bg-surface px-6 py-5">{header}</div>}
-        {tabs && <div className="bg-surface px-6 pt-2">{tabs}</div>}
-        <div className="space-y-4 p-6">{children}</div>
+        {header && (
+          <div className="border-b border-border-subtle bg-surface px-6 py-5">
+            {header}
+          </div>
+        )}
+        {/* Tab list stays on the surface; TabPanel paints its own padded canvas body */}
+        {tabs && <div className="bg-surface">{tabs}</div>}
+        {hasBody && <div className="space-y-4 p-6">{children}</div>}
       </div>
     </section>
   );
