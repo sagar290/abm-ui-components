@@ -9,42 +9,44 @@ import type { Config } from "tailwindcss";
 export const designTokens = {
   colors: {
     // Surfaces
+    // Dark values follow macOS System Settings
     canvas: { light: "#F5F5F7", dark: "#1C1C1E" },
     surface: { light: "#FFFFFF", dark: "#2C2C2E" },
     "surface-secondary": { light: "#F2F2F7", dark: "#3A3A3C" },
-    sidebar: { light: "#E8E8ED", dark: "#161618" },
-    "sidebar-hover": { light: "#DEDEE3", dark: "#2C2C2E" },
-    "sidebar-active": { light: "#FFFFFF", dark: "#3A3A3C" },
+    sidebar: { light: "#F5F5F7", dark: "#1E1E1E" },
+    "sidebar-hover": { light: "#E8E8ED", dark: "#3A3A3C" },
+    "sidebar-active": { light: "#E8E8ED", dark: "#3A3A3C" },
+    banner: { light: "#ECECF3", dark: "#2C2C2E" },
 
     // Borders & rings
-    border: { light: "#D2D2D7", dark: "#48484A" },
-    "border-subtle": { light: "#E5E5EA", dark: "#3A3A3C" },
+    border: { light: "#D2D2D7", dark: "#3A3A3C" },
+    "border-subtle": { light: "#E5E5EA", dark: "#38383A" },
     ring: { light: "#0071E3", dark: "#0A84FF" },
 
     // Text
-    foreground: { light: "#1D1D1F", dark: "#F5F5F7" },
+    foreground: { light: "#1D1D1F", dark: "#FFFFFF" },
     "foreground-secondary": { light: "#6E6E73", dark: "#98989D" },
-    "foreground-muted": { light: "#8E8E93", dark: "#636366" },
-    "foreground-inverse": { light: "#FFFFFF", dark: "#1D1D1F" },
+    "foreground-muted": { light: "#8E8E93", dark: "#8E8E93" },
+    "foreground-inverse": { light: "#FFFFFF", dark: "#FFFFFF" },
 
     // Accent (primary actions / selected)
     accent: { light: "#0071E3", dark: "#0A84FF" },
     "accent-hover": { light: "#0077ED", dark: "#409CFF" },
-    "accent-muted": { light: "#E8F2FC", dark: "#0A84FF33" },
+    "accent-muted": { light: "#E8F2FC", dark: "#0A84FF38" },
 
     // Semantic
     danger: { light: "#FF3B30", dark: "#FF453A" },
     "danger-hover": { light: "#E0342B", dark: "#FF6961" },
-    "danger-muted": { light: "#FFEBEA", dark: "#FF453A33" },
+    "danger-muted": { light: "#FFEBEA", dark: "#FF453A38" },
     warning: { light: "#FF9500", dark: "#FF9F0A" },
-    "warning-muted": { light: "#FFF4E5", dark: "#FF9F0A33" },
+    "warning-muted": { light: "#FFF4E5", dark: "#FF9F0A38" },
     success: { light: "#34C759", dark: "#30D158" },
-    "success-muted": { light: "#E8F8ED", dark: "#30D15833" },
+    "success-muted": { light: "#E8F8ED", dark: "#30D15838" },
     info: { light: "#007AFF", dark: "#0A84FF" },
-    "info-muted": { light: "#E5F1FF", dark: "#0A84FF33" },
+    "info-muted": { light: "#E5F1FF", dark: "#0A84FF38" },
 
     // Overlay
-    overlay: { light: "rgba(0,0,0,0.4)", dark: "rgba(0,0,0,0.6)" },
+    overlay: { light: "rgba(0,0,0,0.4)", dark: "rgba(0,0,0,0.55)" },
   },
   radius: {
     sm: "6px",

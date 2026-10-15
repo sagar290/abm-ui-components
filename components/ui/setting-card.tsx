@@ -57,7 +57,8 @@ export function SettingCard({
     <article
       className={cn(
         "flex flex-col gap-3 rounded-xl border border-border-subtle bg-surface p-5",
-        highlighted && "ring-2 ring-ring ring-offset-2 ring-offset-canvas",
+        highlighted &&
+          "ring-1 ring-accent/50 ring-offset-2 ring-offset-canvas dark:ring-accent/40",
         className
       )}
     >

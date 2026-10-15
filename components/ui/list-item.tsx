@@ -11,7 +11,7 @@ const listItemVariants = cva(
   {
     variants: {
       selected: {
-        true: "bg-accent text-foreground-inverse hover:bg-accent hover:text-foreground-inverse",
+        true: "bg-accent text-foreground-inverse hover:bg-accent hover:text-foreground-inverse dark:bg-accent/25 dark:text-foreground dark:hover:bg-accent/30 dark:hover:text-foreground",
         false: "hover:bg-surface-secondary text-foreground",
       },
     },
@@ -56,7 +56,8 @@ function ListItemContent({
               size="sm"
               className={cn(
                 "shrink-0",
-                selected && "bg-foreground-inverse/20 text-foreground-inverse"
+                selected &&
+                  "bg-foreground-inverse/20 text-foreground-inverse dark:bg-accent/20 dark:text-accent"
               )}
             >
               {statusLabel}
@@ -68,7 +69,7 @@ function ListItemContent({
             className={cn(
               "mt-0.5 truncate text-xs",
               selected
-                ? "text-foreground-inverse/80"
+                ? "text-foreground-inverse/80 dark:text-foreground-secondary"
                 : "text-foreground-secondary"
             )}
           >
