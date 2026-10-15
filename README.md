@@ -76,7 +76,7 @@ On small screens, panes collapse with a menu / back button.
 
 ## Design tokens
 
-Colors, radius, shadows, and fonts live as CSS variables in `app/globals.css` and are documented in `tailwind.config.ts`. Components use token utilities (`bg-surface`, `text-accent`, `rounded-xl`, `shadow-md`) — never hard-coded hex in UI code. Toggle dark mode from the shell or `/design-system`.
+Colors, radius, shadows, and fonts live as CSS variables in `app/globals.css` and are documented in `tailwind.config.ts`. Components use token utilities (`bg-surface`, `text-accent`, `rounded-xl`, `shadow-md`) — never hard-coded hex in UI code. Dark mode is class-based (`html.dark`) with CSS variable tokens. Preference is stored in `localStorage` (`abm-theme`: `light` | `dark` | `system`) and applied before paint to avoid a flash. Toggle from the floating control on desktop, the mobile header, or the segmented control on `/design-system`.
 
 ## Accessibility
 

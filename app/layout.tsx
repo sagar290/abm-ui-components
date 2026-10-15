@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ConsoleProvider } from "@/lib/console-store";
+import { ThemeProvider, themeBootstrapScript } from "@/lib/theme";
 import { ToastProvider } from "@/components/ui";
 import "./globals.css";
 
@@ -16,10 +17,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
-      <body className="min-h-full font-sans antialiased">
-        <ConsoleProvider>
-          <ToastProvider>{children}</ToastProvider>
-        </ConsoleProvider>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{ __html: themeBootstrapScript }}
+        />
+      </head>
+      <body className="min-h-full bg-canvas font-sans text-foreground antialiased">
+        <ThemeProvider>
+          <ConsoleProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </ConsoleProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

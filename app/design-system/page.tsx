@@ -7,9 +7,7 @@ import {
   Copy,
   Eraser,
   Lock,
-  Moon,
   Plus,
-  Sun,
 } from "lucide-react";
 import {
   Avatar,
@@ -34,6 +32,7 @@ import {
   StatusItem,
   Tabs,
   TabPanel,
+  ThemeToggle,
   ToolbarAction,
   useToast,
 } from "@/components/ui";
@@ -66,11 +65,6 @@ export default function DesignSystemPage() {
   const [domain, setDomain] = React.useState("managed.acme.com");
   const [cardA, setCardA] = React.useState(true);
   const [cardB, setCardB] = React.useState(false);
-  const [dark, setDark] = React.useState(false);
-
-  React.useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
 
   return (
     <div className="min-h-dvh bg-canvas">
@@ -84,20 +78,21 @@ export default function DesignSystemPage() {
               Living catalog of every `/components/ui` primitive and variant.
             </p>
           </div>
-          <Button
-            variant="secondary"
-            size="sm"
-            leftIcon={
-              dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />
-            }
-            onClick={() => setDark((d) => !d)}
-          >
-            {dark ? "Light" : "Dark"}
-          </Button>
+          <ThemeToggle appearance="segmented" />
         </div>
       </header>
 
       <main className="mx-auto flex max-w-5xl flex-col gap-6 p-6">
+        <CatalogSection
+          title="ThemeToggle"
+          description="Persisted light / dark / system. Icon cycles light↔dark; segmented exposes all three."
+        >
+          <div className="flex flex-wrap items-center gap-4">
+            <ThemeToggle />
+            <ThemeToggle appearance="segmented" />
+          </div>
+        </CatalogSection>
+
         <CatalogSection title="Button" description="primary · secondary · ghost · destructive · link · sizes · loading · icon">
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="primary">Primary</Button>

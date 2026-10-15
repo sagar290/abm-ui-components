@@ -88,6 +88,9 @@ export type { StatusItemProps } from "./status-item";
 export { Tabs, TabPanel } from "./tabs";
 export type { TabsProps, TabItem, TabPanelProps } from "./tabs";
 
+export { ThemeToggle } from "./theme-toggle";
+export type { ThemeToggleProps } from "./theme-toggle";
+
 export { ToastProvider, useToast } from "./toast";
 export type { ToastMessage, ToastVariant } from "./toast";
 

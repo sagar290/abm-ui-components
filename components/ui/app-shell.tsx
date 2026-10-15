@@ -2,11 +2,12 @@
 
 import * as React from "react";
 import { usePathname } from "next/navigation";
-import { ArrowLeft, Menu, Moon, Sun, X } from "lucide-react";
+import { ArrowLeft, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import { Overlay } from "./overlay";
 import { Sidebar } from "./sidebar";
+import { ThemeToggle } from "./theme-toggle";
 import type { ChecklistItem, NavItem, Organization } from "@/types";
 
 export interface AppShellProps {
@@ -41,15 +42,7 @@ export function AppShell({
 }: AppShellProps) {
   const pathname = usePathname();
   const [navOpen, setNavOpen] = React.useState(false);
-  const [dark, setDark] = React.useState(false);
 
-  React.useEffect(() => {
-    const root = document.documentElement;
-    if (dark) root.classList.add("dark");
-    else root.classList.remove("dark");
-  }, [dark]);
-
-  // Mobile pane: nav | list | detail
   const mobilePane: "nav" | "list" | "detail" = navOpen
     ? "nav"
     : detailOpen
@@ -58,7 +51,6 @@ export function AppShell({
 
   return (
     <div className={cn("flex h-dvh w-full overflow-hidden bg-canvas", className)}>
-      {/* Desktop sidebar */}
       <div className="hidden w-60 shrink-0 lg:block">
         <Sidebar
           items={navItems}
@@ -71,7 +63,6 @@ export function AppShell({
         />
       </div>
 
-      {/* Mobile nav drawer */}
       {navOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <Overlay onClose={() => setNavOpen(false)} label="Close navigation" />
@@ -112,15 +103,7 @@ export function AppShell({
             />
           )}
           <p className="flex-1 truncate text-sm font-semibold">{mobileTitle}</p>
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-            onClick={() => setDark((d) => !d)}
-            leftIcon={
-              dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />
-            }
-          />
+          <ThemeToggle className="h-8 w-8 shadow-none" />
         </header>
 
         <div className="flex min-h-0 flex-1">
@@ -137,7 +120,9 @@ export function AppShell({
           <div
             className={cn(
               "min-w-0 flex-1",
-              listPane && !detailOpen ? "hidden md:flex md:flex-col" : "flex flex-col"
+              listPane && !detailOpen
+                ? "hidden md:flex md:flex-col"
+                : "flex flex-col"
             )}
           >
             {children}
@@ -145,18 +130,8 @@ export function AppShell({
         </div>
       </div>
 
-      {/* Desktop theme toggle */}
       <div className="pointer-events-none fixed bottom-4 right-4 z-30 hidden lg:block">
-        <Button
-          variant="secondary"
-          size="icon"
-          className="pointer-events-auto shadow-md"
-          aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-          onClick={() => setDark((d) => !d)}
-          leftIcon={
-            dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />
-          }
-        />
+        <ThemeToggle className="pointer-events-auto" />
       </div>
     </div>
   );

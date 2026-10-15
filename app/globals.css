@@ -8,6 +8,7 @@
  * Mapped into Tailwind utilities via @theme.
  */
 :root {
+  color-scheme: light;
   --color-canvas: #f5f5f7;
   --color-surface: #ffffff;
   --color-surface-secondary: #f2f2f7;
@@ -52,6 +53,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --color-canvas: #1c1c1e;
   --color-surface: #2c2c2e;
   --color-surface-secondary: #3a3a3c;
@@ -145,5 +147,35 @@
   /* Visible focus rings for keyboard users */
   :focus-visible {
     @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-surface;
+  }
+}
+
+/*
+ * Smooth theme switching — only while html.theme-transition is set
+ * (toggled from ThemeProvider). Avoids animating first paint / FOUC.
+ */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 320ms ease,
+    color 320ms ease,
+    border-color 320ms ease,
+    outline-color 320ms ease,
+    fill 320ms ease,
+    stroke 320ms ease,
+    box-shadow 320ms ease,
+    caret-color 320ms ease,
+    accent-color 320ms ease !important;
+  transition-delay: 0s !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transition,
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition: none !important;
   }
 }
