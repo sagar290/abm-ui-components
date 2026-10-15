@@ -2,8 +2,8 @@
 
 import { Monitor, Moon, Sun } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import { useTheme, type Theme } from "@/lib/theme";
+import { cn } from "../../lib/utils";
+import { useTheme, type Theme } from "../../lib/theme";
 import { Button } from "./button";
 
 const themeToggleVariants = cva("", {

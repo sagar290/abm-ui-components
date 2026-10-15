@@ -1,12 +1,49 @@
 {
-  "name": "my-poc",
+  "name": "@abm/ui",
   "version": "0.1.0",
-  "private": true,
+  "description": "Apple Business–style admin console UI kit (components, tokens, theme). Install from GitHub — no registry server.",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trainsprint/ui-components.git"
+  },
+  "homepage": "https://github.com/trainsprint/ui-components#readme",
+  "bugs": {
+    "url": "https://github.com/trainsprint/ui-components/issues"
+  },
+  "main": "./components/ui/index.ts",
+  "types": "./components/ui/index.ts",
+  "exports": {
+    ".": "./components/ui/index.ts",
+    "./styles.css": "./styles/tokens.css",
+    "./theme": "./lib/theme.tsx",
+    "./utils": "./lib/utils.ts",
+    "./types": "./types/index.ts"
+  },
+  "files": [
+    "components/ui",
+    "lib/utils.ts",
+    "lib/theme.tsx",
+    "styles",
+    "types",
+    "AGENTS.md",
+    "CONSUMING.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:pages": "GITHUB_PAGES=true next build",
     "start": "next start",
     "lint": "eslint"
+  },
+  "peerDependencies": {
+    "next": ">=15",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.4.1",
@@ -24,9 +61,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.57.0",
-    "next": "16.4.1",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
@@ -36,6 +70,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.1",
+    "next": "16.4.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

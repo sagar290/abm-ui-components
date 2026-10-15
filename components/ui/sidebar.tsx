@@ -17,13 +17,13 @@ import {
   Users,
   UsersRound,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { Avatar } from "./avatar";
 import { BrandMark } from "./brand-mark";
 import { Button } from "./button";
 import { Select } from "./select";
 import { SidebarItem } from "./sidebar-item";
-import type { ChecklistItem, NavGroup, NavItem, Organization } from "@/types";
+import type { ChecklistItem, NavGroup, NavItem, Organization } from "../../types";
 
 const iconById: Record<string, React.ReactNode> = {
   subscription: <CreditCard className="h-4 w-4" strokeWidth={1.75} />,

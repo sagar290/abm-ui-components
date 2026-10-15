@@ -11,10 +11,10 @@ import {
   Wifi,
   Plus,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { Badge } from "./badge";
 import { Button } from "./button";
-import type { SettingDefinition } from "@/types";
+import type { SettingDefinition } from "../../types";
 
 const iconMap = {
   shield: Shield,

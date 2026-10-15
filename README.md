@@ -2,6 +2,15 @@
 
 Reusable admin-console UI kit and demo app inspired by Apple Business Manager’s device and user management UX.
 
+**Package:** `@abm/ui` · **Maintained on GitHub only** (no registry or design-system server).  
+See **[CONSUMING.md](./CONSUMING.md)** for install via git tag, peer deps, Tailwind wire-up, and the PR checklist.
+
+```bash
+npm install git+https://github.com/trainsprint/ui-components.git#ui-v0.1.0
+```
+
+Living catalog: `/design-system` in this app, or optional [GitHub Pages](./.github/workflows/pages.yml) after enabling Actions as the Pages source.
+
 ## Screenshots
 
 ### Users
@@ -27,7 +36,7 @@ Reusable admin-console UI kit and demo app inspired by Apple Business Manager’
 ## Stack
 
 - **Next.js** (App Router) + TypeScript (strict)
-- **Tailwind CSS v4** design tokens (`app/globals.css` + `tailwind.config.ts`)
+- **Tailwind CSS v4** design tokens (`styles/tokens.css`, imported from `app/globals.css`)
 - **Radix UI** (dialog, select, tabs, checkbox, toast, tooltip, popover)
 - **lucide-react**, **class-variance-authority**, **clsx**, **tailwind-merge** (`cn()` in `lib/utils.ts`)
 - Mock data only — no backend
@@ -98,7 +107,16 @@ On small screens, panes collapse with a menu / back button.
 
 ## Design tokens
 
-Colors, radius, shadows, and fonts live as CSS variables in `app/globals.css` and are documented in `tailwind.config.ts`. Components use token utilities (`bg-surface`, `text-accent`, `rounded-xl`, `shadow-md`) — never hard-coded hex in UI code. Dark mode is class-based (`html.dark`) with CSS variable tokens. Preference is stored in `localStorage` (`abm-theme`: `light` | `dark` | `system`) and applied before paint to avoid a flash. Toggle from the floating control on desktop, the mobile header, or the segmented control on `/design-system`.
+Colors, radius, shadows, and fonts live as CSS variables in `styles/tokens.css` (exported as `@abm/ui/styles.css`). The demo app imports them from `app/globals.css`. Components use token utilities (`bg-surface`, `text-accent`, `rounded-xl`, `shadow-md`) — never hard-coded hex in UI code. Dark mode is class-based (`html.dark`). Preference is stored in `localStorage` (`abm-theme`: `light` | `dark` | `system`) and applied before paint to avoid a flash.
+
+## Releasing the kit
+
+```bash
+git tag -a ui-v0.1.0 -m "ui-v0.1.0"
+git push origin ui-v0.1.0
+```
+
+Consumers bump the `#ui-v…` pin. Tagging `ui-v*` also deploys the optional Pages catalog when GitHub Pages is set to Actions.
 
 ## Accessibility
 

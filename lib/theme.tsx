@@ -28,7 +28,7 @@ function resolveTheme(theme: Theme): ResolvedTheme {
 }
 
 const TRANSITION_MS = 320;
-let transitionTimer: ReturnType<typeof setTimeout> | undefined;
+let transitionTimer: ReturnType<typeof setTimeout> | number | undefined;
 
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -1,7 +1,7 @@
 "use client";
 
 import { Filter, Plus, ArrowUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { Button } from "./button";
 import { SearchField } from "./search-field";
 

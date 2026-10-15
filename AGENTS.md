@@ -15,9 +15,9 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 1. **Single source of truth:** all UI elements live in `/components/ui`. Pages and features may only COMPOSE these components. Never write raw `<button>`, `<input>`, `<select>`, modal markup or styled `<div>` cards inside a page or feature file.
 2. **Every button is the shared `<Button>`.** Variants (primary, secondary, ghost, destructive), sizes, icons, loading and disabled states are handled by props, never by copying the component or adding ad-hoc Tailwind classes on a page.
 3. **Before creating anything new, check `/components/ui` and `/components/features`.** If a component exists, import and reuse it. If it almost fits, extend it with a new prop or variant instead of creating a near-duplicate.
-4. **Create a new component only if no existing one can cover the need.** When you do: put it in `/components/ui`, give it typed props and variants, export it from `/components/ui/index.ts`, and add it to the `/design-system` page.
+4. **Create a new component only if no existing one can cover the need.** When you do: put it in `/components/ui`, give it typed props and variants, export it from `/components/ui/index.ts`, and add it to the `/design-system` page. External apps install this kit from GitHub as `@abm/ui` — see `CONSUMING.md`.
 5. **No inline styling and no repeated Tailwind class strings.** Shared styles live in the component (via class-variance-authority) or in design tokens in `tailwind.config.ts` / `app/globals.css`.
-6. **Colors, spacing, radius and shadows come only from design tokens.** No hard-coded hex values in components or pages.
+6. **Colors, spacing, radius and shadows come only from design tokens** in `styles/tokens.css`. No hard-coded hex values in components or pages.
 7. **Naming:** one component per concept (one Modal, one Badge, one Input). Never create variants like CustomButton, NewButton or ButtonV2.
 8. **After every screen you add or change, finish with a short "Reuse report":** which existing components were used, which were extended, and which new ones were added (with a reason for each).
 9. **If a request would require breaking these rules, stop and ask first.**

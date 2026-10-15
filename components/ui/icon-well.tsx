@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 const iconWellVariants = cva(
   "inline-flex items-center justify-center rounded-xl bg-surface-secondary text-foreground-muted",

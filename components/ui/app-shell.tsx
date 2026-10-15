@@ -3,12 +3,12 @@
 import * as React from "react";
 import { usePathname } from "next/navigation";
 import { ArrowLeft, Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { Button } from "./button";
 import { Overlay } from "./overlay";
 import { Sidebar } from "./sidebar";
 import { ThemeToggle } from "./theme-toggle";
-import type { ChecklistItem, NavItem, Organization } from "@/types";
+import type { ChecklistItem, NavItem, Organization } from "../../types";
 
 export interface AppShellProps {
   navItems: NavItem[];

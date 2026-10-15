@@ -1,7 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { Input, type InputProps } from "./input";
 
 export interface SearchFieldProps

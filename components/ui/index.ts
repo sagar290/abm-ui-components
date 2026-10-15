@@ -103,8 +103,17 @@ export type { TabsProps, TabItem, TabPanelProps } from "./tabs";
 export { ThemeToggle } from "./theme-toggle";
 export type { ThemeToggleProps } from "./theme-toggle";
 
+export {
+  ThemeProvider,
+  useTheme,
+  themeBootstrapScript,
+} from "../../lib/theme";
+export type { Theme, ResolvedTheme } from "../../lib/theme";
+
 export { ToastProvider, useToast } from "./toast";
 export type { ToastMessage, ToastVariant } from "./toast";
 
 export { ToolbarAction } from "./toolbar-action";
 export type { ToolbarActionProps } from "./toolbar-action";
+
+export { cn } from "../../lib/utils";

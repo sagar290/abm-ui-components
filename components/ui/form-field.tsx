@@ -4,7 +4,7 @@ import * as React from "react";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Info } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 const formFieldVariants = cva("", {
   variants: {

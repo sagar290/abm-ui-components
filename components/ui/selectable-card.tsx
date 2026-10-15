@@ -3,7 +3,7 @@
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { Check } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 const selectableCardVariants = cva(
   "group relative flex w-full cursor-pointer flex-col gap-3 rounded-2xl border p-5 text-left transition-all focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-surface",

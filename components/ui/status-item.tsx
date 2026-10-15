@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { AlertTriangle, CheckCircle2, XCircle } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { Button } from "./button";
-import type { StatusTone } from "@/types";
+import type { StatusTone } from "../../types";
 
 const statusItemVariants = cva(
   "flex items-center justify-between gap-3 rounded-lg px-3 py-2.5",
