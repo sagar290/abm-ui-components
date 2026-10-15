@@ -2,6 +2,28 @@
 
 Reusable admin-console UI kit and demo app inspired by Apple Business Manager’s device and user management UX.
 
+## Screenshots
+
+### Users
+
+![Users — light mode](docs/screenshots/users-light.png)
+
+![Users — dark mode](docs/screenshots/users-dark.png)
+
+### Devices
+
+![Devices — light mode](docs/screenshots/devices-light.png)
+
+### Settings
+
+![Settings — light mode](docs/screenshots/settings-light.png)
+
+![Settings — dark mode](docs/screenshots/settings-dark.png)
+
+### Apps
+
+![Apps — light mode](docs/screenshots/apps-light.png)
+
 ## Stack
 
 - **Next.js** (App Router) + TypeScript (strict)
