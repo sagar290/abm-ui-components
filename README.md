@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Business Manager Admin Console (POC)
 
-## Getting Started
+Reusable admin-console UI kit and demo app inspired by Apple Business Manager’s device and user management UX.
 
-First, run the development server:
+## Stack
+
+- **Next.js** (App Router) + TypeScript (strict)
+- **Tailwind CSS v4** design tokens (`app/globals.css` + `tailwind.config.ts`)
+- **Radix UI** (dialog, select, tabs, checkbox, toast, tooltip, popover)
+- **lucide-react**, **class-variance-authority**, **clsx**, **tailwind-merge** (`cn()` in `lib/utils.ts`)
+- Mock data only — no backend
+
+## Setup
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) (redirects to `/users`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Script        | Description              |
+|---------------|--------------------------|
+| `npm run dev` | Development server       |
+| `npm run build` | Production build       |
+| `npm run start` | Start production server|
+| `npm run lint`  | ESLint                 |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture
 
-## Learn More
+```
+/app                    Routes (compose only — no raw controls)
+/components/ui          Reusable primitives & shell chrome
+/components/features    Screen-level compositions (Users, Devices, Settings)
+/lib                    utils, mock-data, console-store
+/types                  Shared TypeScript types
+```
 
-To learn more about Next.js, take a look at the following resources:
+**Component reuse rules** are enforced in `AGENTS.md`. Pages and features may only compose `/components/ui` components.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Three-pane shell
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`AppShell` + `Sidebar` + `ListPane` + `DetailPane`:
 
-## Deploy on Vercel
+1. Left nav (with alert badges, Get Started checklist, org switcher)
+2. Middle searchable list
+3. Right detail (toolbar, header, tabs, sections)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+On small screens, panes collapse with a menu / back button.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Client state
+
+`ConsoleProvider` (`lib/console-store.tsx`) holds users, devices, configured settings, checklist, and org. Adding a setting that remediates an issue clears matching device issues (e.g. Firewall → device “Firewall Off”).
+
+## Key routes
+
+| Route | Description |
+|-------|-------------|
+| `/users`, `/users/[id]` | User list, add account modal, enroll devices |
+| `/devices`, `/devices/[id]` | Device list with issue badges, erase confirm, status Fix links |
+| `/settings` | Settings catalog + configured list; remediates device issues |
+| `/design-system` | Living catalog of every UI component/variant |
+| Other nav items | Placeholder “coming soon” pages |
+
+## How to add a new resource page (e.g. Groups)
+
+1. **Types & mock data** — add `Group` to `types/index.ts` and seed data in `lib/mock-data.ts`. Add a nav item if needed.
+2. **Feature console** — create `components/features/groups-console.tsx` that composes only UI kit pieces:
+   - `ConsoleLayout` + `ListPane` / `ListItem` for the middle pane
+   - `DetailPane` + `Tabs` / `SectionCard` / `EmptyState` for detail
+   - `Dialog` + `FormField` + `Input` / `Select` for create/edit
+   - `ConfirmDialog` for destructive actions
+3. **Routes** — add `app/groups/page.tsx` and `app/groups/[id]/page.tsx` that render the feature.
+4. **Do not** add raw `<button>` / `<input>` / card markup in the feature. If something is missing, extend an existing UI component or add one to `/components/ui`, export it from `index.ts`, and document it on `/design-system`.
+5. Finish with a **Reuse report** (used / extended / new).
+
+## Design tokens
+
+Colors, radius, shadows, and fonts live as CSS variables in `app/globals.css` and are documented in `tailwind.config.ts`. Components use token utilities (`bg-surface`, `text-accent`, `rounded-xl`, `shadow-md`) — never hard-coded hex in UI code. Toggle dark mode from the shell or `/design-system`.
+
+## Accessibility
+
+- Keyboard focus rings via `:focus-visible` and Radix primitives
+- Dialogs trap focus and close on ESC
+- Destructive actions are visually separated and confirmed
+- Badges and toolbar actions expose accessible names

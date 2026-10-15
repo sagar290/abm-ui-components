@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Interactive admin console is client-state heavy; keep classic SSR/CSR behavior.
   turbopack: {
     rules: {
       "*.css": {
