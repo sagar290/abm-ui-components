@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
   ...(isGitHubPages
     ? {
         output: "export" as const,
-        basePath: "/ui-components",
-        assetPrefix: "/ui-components/",
+        basePath: "/abm-ui-components",
+        assetPrefix: "/abm-ui-components/",
         images: { unoptimized: true },
         trailingSlash: true,
       }

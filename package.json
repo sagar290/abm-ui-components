@@ -5,11 +5,11 @@
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trainsprint/ui-components.git"
+    "url": "git+https://github.com/sagar290/abm-ui-components.git"
   },
-  "homepage": "https://github.com/trainsprint/ui-components#readme",
+  "homepage": "https://github.com/sagar290/abm-ui-components#readme",
   "bugs": {
-    "url": "https://github.com/trainsprint/ui-components/issues"
+    "url": "https://github.com/sagar290/abm-ui-components/issues"
   },
   "main": "./components/ui/index.ts",
   "types": "./components/ui/index.ts",

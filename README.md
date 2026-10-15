@@ -6,7 +6,7 @@ Reusable admin-console UI kit and demo app inspired by Apple Business Manager’
 See **[CONSUMING.md](./CONSUMING.md)** for install via git tag, peer deps, Tailwind wire-up, and the PR checklist.
 
 ```bash
-npm install git+https://github.com/trainsprint/ui-components.git#1.1.0
+npm install git+https://github.com/sagar290/abm-ui-components.git#1.1.0
 ```
 
 Existing remote tags use semver (e.g. `1.0.0`). Living catalog: `/design-system` in this app, or optional [GitHub Pages](./.github/workflows/pages.yml) after enabling Actions as the Pages source.

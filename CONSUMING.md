@@ -2,12 +2,12 @@
 
 This kit is maintained **only on GitHub** — no private npm registry and no always-on design-system server. Install a tagged commit; upgrade by bumping the tag.
 
-**Repository:** [trainsprint/ui-components](https://github.com/trainsprint/ui-components)
+**Repository:** [sagar290/abm-ui-components](https://github.com/sagar290/abm-ui-components)
 
 ## Install (git dependency)
 
 ```bash
-npm install git+https://github.com/trainsprint/ui-components.git#1.1.0
+npm install git+https://github.com/sagar290/abm-ui-components.git#1.1.0
 ```
 
 This repo already versions with **semver git tags** (`1.0.0`, `1.1.0`, …). Pin the tag you want.
@@ -17,7 +17,7 @@ Or in `package.json`:
 ```json
 {
   "dependencies": {
-    "@abm/ui": "git+https://github.com/trainsprint/ui-components.git#1.1.0"
+    "@abm/ui": "git+https://github.com/sagar290/abm-ui-components.git#1.1.0"
   }
 }
 ```
@@ -25,7 +25,7 @@ Or in `package.json`:
 SSH alternative:
 
 ```json
-"@abm/ui": "git+ssh://git@github.com/trainsprint/ui-components.git#1.1.0"
+"@abm/ui": "git+ssh://git@github.com/sagar290/abm-ui-components.git#1.1.0"
 ```
 
 ### Upgrade
@@ -127,7 +127,7 @@ Copy the reuse rules from [`AGENTS.md`](./AGENTS.md) into the consuming repo (or
 |-----|--------|
 | In-repo | [`/design-system`](./app/design-system/page.tsx) — review in PRs |
 | Local | `npm run dev` → http://localhost:3000/design-system |
-| Optional Pages | Push a semver tag (`*.*.*`) or run **Deploy design catalog to GitHub Pages**; enable Pages → Source = GitHub Actions. URL: `https://trainsprint.github.io/ui-components/design-system/` |
+| Optional Pages | Push a semver tag (`*.*.*`) or run **Deploy design catalog to GitHub Pages**; enable Pages → Source = GitHub Actions. URL: `https://sagar290.github.io/abm-ui-components/design-system/` |
 
 You do **not** need a separate Storybook host.
 
