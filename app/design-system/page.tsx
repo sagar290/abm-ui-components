@@ -39,6 +39,7 @@ import {
   StatusItem,
   Tabs,
   TabPanel,
+  ThemeCustomizer,
   ThemePicker,
   ThemePresetMenu,
   ThemeToggle,
@@ -89,6 +90,7 @@ export default function DesignSystemPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <ThemeCustomizer />
             <ThemePresetMenu />
             <ThemeToggle appearance="segmented" />
           </div>
@@ -112,10 +114,11 @@ export default function DesignSystemPage() {
         >
           <div className="space-y-4">
             <ThemePicker />
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <ThemeCustomizer />
               <ThemePresetMenu />
               <span className="text-sm text-foreground-secondary">
-                ThemePresetMenu (popover)
+                Gear = custom colors · Palette = style preset
               </span>
             </div>
           </div>

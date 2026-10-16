@@ -7,6 +7,7 @@ import { cn } from "../../lib/utils";
 import { Button } from "./button";
 import { Overlay } from "./overlay";
 import { Sidebar } from "./sidebar";
+import { ThemeCustomizer } from "./theme-customizer";
 import { ThemePresetMenu } from "./theme-preset-menu";
 import { ThemeToggle } from "./theme-toggle";
 import type { ChecklistItem, NavItem, Organization } from "../../types";
@@ -110,6 +111,7 @@ export function AppShell({
             />
           )}
           <p className="flex-1 truncate text-sm font-semibold">{mobileTitle}</p>
+          <ThemeCustomizer size="icon-sm" className="h-8 w-8 shadow-none" />
           <ThemePresetMenu size="icon-sm" className="h-8 w-8 shadow-none" />
           <ThemeToggle className="h-8 w-8 shadow-none" />
         </header>
@@ -139,6 +141,7 @@ export function AppShell({
       </div>
 
       <div className="pointer-events-none fixed bottom-4 right-4 z-30 hidden gap-2 lg:flex">
+        <ThemeCustomizer className="pointer-events-auto" />
         <ThemePresetMenu className="pointer-events-auto" />
         <ThemeToggle className="pointer-events-auto" />
       </div>
