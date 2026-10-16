@@ -15,10 +15,10 @@ import { appsCatalog } from "@/lib/mock-data";
 import { ConsoleLayout } from "./console-layout";
 
 const iconColorClass = {
-  blue: "bg-accent text-foreground-inverse",
+  blue: "bg-info text-foreground-inverse",
   orange: "bg-warning text-foreground-inverse",
   green: "bg-success text-foreground-inverse",
-  purple: "bg-info text-foreground-inverse",
+  purple: "bg-accent text-foreground-inverse",
   gray: "bg-surface-secondary text-foreground",
 } as const;
 

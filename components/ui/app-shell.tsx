@@ -7,6 +7,7 @@ import { cn } from "../../lib/utils";
 import { Button } from "./button";
 import { Overlay } from "./overlay";
 import { Sidebar } from "./sidebar";
+import { ThemePresetMenu } from "./theme-preset-menu";
 import { ThemeToggle } from "./theme-toggle";
 import type { ChecklistItem, NavItem, Organization } from "../../types";
 
@@ -50,7 +51,10 @@ export function AppShell({
       : "list";
 
   return (
-    <div className={cn("flex h-dvh w-full overflow-hidden bg-canvas", className)}>
+    <div
+      data-chrome="shell"
+      className={cn("flex h-dvh w-full overflow-hidden bg-canvas", className)}
+    >
       <div className="hidden w-60 shrink-0 lg:block">
         <Sidebar
           items={navItems}
@@ -82,7 +86,10 @@ export function AppShell({
       )}
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-12 shrink-0 items-center gap-2 border-b border-border-subtle bg-surface px-3 lg:hidden">
+        <header
+          data-chrome="header"
+          className="flex h-12 shrink-0 items-center gap-2 border-b border-border-subtle bg-surface px-3 lg:hidden"
+        >
           {mobilePane === "detail" && onBack ? (
             <Button
               variant="ghost"
@@ -103,6 +110,7 @@ export function AppShell({
             />
           )}
           <p className="flex-1 truncate text-sm font-semibold">{mobileTitle}</p>
+          <ThemePresetMenu size="icon-sm" className="h-8 w-8 shadow-none" />
           <ThemeToggle className="h-8 w-8 shadow-none" />
         </header>
 
@@ -130,7 +138,8 @@ export function AppShell({
         </div>
       </div>
 
-      <div className="pointer-events-none fixed bottom-4 right-4 z-30 hidden lg:block">
+      <div className="pointer-events-none fixed bottom-4 right-4 z-30 hidden gap-2 lg:flex">
+        <ThemePresetMenu className="pointer-events-auto" />
         <ThemeToggle className="pointer-events-auto" />
       </div>
     </div>

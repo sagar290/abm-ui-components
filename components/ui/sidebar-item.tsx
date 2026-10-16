@@ -11,9 +11,9 @@ const sidebarItemVariants = cva(
   {
     variants: {
       active: {
-        // Light: gray pill · Dark: soft accent tint (not solid blue)
-        true: "bg-sidebar-active text-foreground hover:bg-sidebar-active dark:bg-accent/25 dark:text-foreground dark:hover:bg-accent/30",
-        false: "text-foreground hover:bg-sidebar-hover",
+        // Light: gray pill · Dark: stronger accent tint so active state reads clearly
+        true: "bg-sidebar-active text-foreground hover:bg-sidebar-active dark:bg-accent/35 dark:text-foreground dark:hover:bg-accent/40 dark:ring-1 dark:ring-accent/40",
+        false: "text-foreground/90 hover:bg-sidebar-hover hover:text-foreground",
       },
     },
     defaultVariants: {

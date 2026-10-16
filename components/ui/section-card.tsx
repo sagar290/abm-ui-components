@@ -45,7 +45,10 @@ export function SectionCard({
   const compact = density === "compact";
 
   return (
-    <section className={cn(sectionCardVariants({ density }), className)}>
+    <section
+      data-chrome="panel"
+      className={cn(sectionCardVariants({ density }), className)}
+    >
       <header
         className={cn(
           "flex items-center justify-between gap-3 border-b border-border-subtle",

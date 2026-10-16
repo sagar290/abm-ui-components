@@ -83,6 +83,7 @@ export function Sidebar({
 
   return (
     <nav
+      data-chrome="sidebar"
       className={cn(
         "flex h-full min-h-0 w-full flex-col bg-sidebar border-r border-border-subtle",
         className

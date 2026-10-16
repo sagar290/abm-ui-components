@@ -100,6 +100,12 @@ export type { StatusItemProps } from "./status-item";
 export { Tabs, TabPanel } from "./tabs";
 export type { TabsProps, TabItem, TabPanelProps } from "./tabs";
 
+export { ThemePicker } from "./theme-picker";
+export type { ThemePickerProps } from "./theme-picker";
+
+export { ThemePresetMenu } from "./theme-preset-menu";
+export type { ThemePresetMenuProps } from "./theme-preset-menu";
+
 export { ThemeToggle } from "./theme-toggle";
 export type { ThemeToggleProps } from "./theme-toggle";
 
@@ -107,8 +113,9 @@ export {
   ThemeProvider,
   useTheme,
   themeBootstrapScript,
+  PRESETS,
 } from "../../lib/theme";
-export type { Theme, ResolvedTheme } from "../../lib/theme";
+export type { Theme, ResolvedTheme, Preset } from "../../lib/theme";
 
 export { ToastProvider, useToast } from "./toast";
 export type { ToastMessage, ToastVariant } from "./toast";

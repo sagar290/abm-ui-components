@@ -39,6 +39,8 @@ import {
   StatusItem,
   Tabs,
   TabPanel,
+  ThemePicker,
+  ThemePresetMenu,
   ThemeToggle,
   ToolbarAction,
   useToast,
@@ -86,7 +88,10 @@ export default function DesignSystemPage() {
               Living catalog of every `/components/ui` primitive and variant.
             </p>
           </div>
-          <ThemeToggle appearance="segmented" />
+          <div className="flex items-center gap-2">
+            <ThemePresetMenu />
+            <ThemeToggle appearance="segmented" />
+          </div>
         </div>
       </header>
 
@@ -98,6 +103,21 @@ export default function DesignSystemPage() {
           <div className="flex flex-wrap items-center gap-4">
             <ThemeToggle />
             <ThemeToggle appearance="segmented" />
+          </div>
+        </CatalogSection>
+
+        <CatalogSection
+          title="ThemePicker"
+          description="Style presets (Normal, Glossy, Colorful Glossy). Light/dark stays shared. Menu wraps the picker for chrome."
+        >
+          <div className="space-y-4">
+            <ThemePicker />
+            <div className="flex items-center gap-2">
+              <ThemePresetMenu />
+              <span className="text-sm text-foreground-secondary">
+                ThemePresetMenu (popover)
+              </span>
+            </div>
           </div>
         </CatalogSection>
 

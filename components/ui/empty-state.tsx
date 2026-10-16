@@ -60,7 +60,7 @@ export function EmptyState({
       )}
       <p
         className={cn(
-          "max-w-sm text-foreground-secondary",
+          "max-w-sm text-foreground/90",
           density === "compact" ? "text-xs" : "text-sm"
         )}
       >

@@ -4,14 +4,46 @@ import * as React from "react";
 
 export type Theme = "light" | "dark" | "system";
 export type ResolvedTheme = "light" | "dark";
+export type Preset = "normal" | "glossy" | "colorful";
 
-const STORAGE_KEY = "abm-theme";
+const THEME_STORAGE_KEY = "abm-theme";
+const PRESET_STORAGE_KEY = "abm-preset";
+
+export const PRESETS: readonly {
+  id: Preset;
+  label: string;
+  description: string;
+}[] = [
+  {
+    id: "normal",
+    label: "Normal",
+    description: "Flat, clean admin chrome",
+  },
+  {
+    id: "glossy",
+    label: "Glossy",
+    description: "Frosted glass and soft depth",
+  },
+  {
+    id: "colorful",
+    label: "Colorful Glossy",
+    description: "Glass plus iridescent accents",
+  },
+] as const;
+
+const PRESET_IDS: readonly Preset[] = ["normal", "glossy", "colorful"];
+
+function isPreset(value: string | null): value is Preset {
+  return value !== null && (PRESET_IDS as readonly string[]).includes(value);
+}
 
 interface ThemeContextValue {
   theme: Theme;
   resolvedTheme: ResolvedTheme;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
+  preset: Preset;
+  setPreset: (preset: Preset) => void;
 }
 
 const ThemeContext = React.createContext<ThemeContextValue | null>(null);
@@ -66,25 +98,43 @@ function applyTheme(resolved: ResolvedTheme, { animate = false } = {}) {
   else run();
 }
 
-/** Inline bootstrap — run before paint to avoid a light flash. */
-export const themeBootstrapScript = `(function(){try{var k=${JSON.stringify(STORAGE_KEY)};var t=localStorage.getItem(k)||"system";var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var r=t==="dark"||(t!=="light"&&d);var e=document.documentElement;e.classList.toggle("dark",r);e.style.colorScheme=r?"dark":"light";}catch(e){}})();`;
+function applyPreset(preset: Preset, { animate = false } = {}) {
+  const run = () => {
+    document.documentElement.setAttribute("data-preset", preset);
+  };
+
+  if (animate) withThemeTransition(run);
+  else run();
+}
+
+/** Inline bootstrap — run before paint to avoid a light / wrong-preset flash. */
+export const themeBootstrapScript = `(function(){try{var tk=${JSON.stringify(THEME_STORAGE_KEY)};var pk=${JSON.stringify(PRESET_STORAGE_KEY)};var t=localStorage.getItem(tk)||"system";var p=localStorage.getItem(pk)||"normal";if(p!=="normal"&&p!=="glossy"&&p!=="colorful")p="normal";var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var r=t==="dark"||(t!=="light"&&d);var e=document.documentElement;e.classList.toggle("dark",r);e.style.colorScheme=r?"dark":"light";e.setAttribute("data-preset",p);}catch(e){}})();`;
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = React.useState<Theme>("system");
   const [resolvedTheme, setResolvedTheme] =
     React.useState<ResolvedTheme>("light");
+  const [preset, setPresetState] = React.useState<Preset>("normal");
   const [ready, setReady] = React.useState(false);
 
   React.useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-    const next: Theme =
-      stored === "light" || stored === "dark" || stored === "system"
-        ? stored
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+    const nextTheme: Theme =
+      storedTheme === "light" ||
+      storedTheme === "dark" ||
+      storedTheme === "system"
+        ? storedTheme
         : "system";
-    const resolved = resolveTheme(next);
-    setThemeState(next);
+    const storedPreset = localStorage.getItem(PRESET_STORAGE_KEY);
+    const nextPreset: Preset = isPreset(storedPreset)
+      ? storedPreset
+      : "normal";
+    const resolved = resolveTheme(nextTheme);
+    setThemeState(nextTheme);
     setResolvedTheme(resolved);
+    setPresetState(nextPreset);
     applyTheme(resolved);
+    applyPreset(nextPreset);
     setReady(true);
   }, []);
 
@@ -102,11 +152,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme, ready]);
 
   const setTheme = React.useCallback((next: Theme) => {
-    localStorage.setItem(STORAGE_KEY, next);
+    localStorage.setItem(THEME_STORAGE_KEY, next);
     const resolved = resolveTheme(next);
     setThemeState(next);
     setResolvedTheme(resolved);
     applyTheme(resolved, { animate: true });
+  }, []);
+
+  const setPreset = React.useCallback((next: Preset) => {
+    localStorage.setItem(PRESET_STORAGE_KEY, next);
+    setPresetState(next);
+    applyPreset(next, { animate: true });
   }, []);
 
   const toggleTheme = React.useCallback(() => {
@@ -114,8 +170,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [resolvedTheme, setTheme]);
 
   const value = React.useMemo(
-    () => ({ theme, resolvedTheme, setTheme, toggleTheme }),
-    [theme, resolvedTheme, setTheme, toggleTheme]
+    () => ({
+      theme,
+      resolvedTheme,
+      setTheme,
+      toggleTheme,
+      preset,
+      setPreset,
+    }),
+    [theme, resolvedTheme, setTheme, toggleTheme, preset, setPreset]
   );
 
   return (

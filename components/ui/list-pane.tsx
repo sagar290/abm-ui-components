@@ -37,6 +37,7 @@ export function ListPane({
 }: ListPaneProps) {
   return (
     <aside
+      data-chrome="panel"
       className={cn(
         "flex h-full min-h-0 w-full flex-col border-r border-border-subtle bg-surface",
         className

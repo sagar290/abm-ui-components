@@ -1,15 +1,15 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Design tokens for the Apple Business–style admin console.
- * Consumed via CSS variables in app/globals.css (@theme).
+ * Design tokens for the admin console.
+ * Appearance: light / dark. Style presets: normal | glossy | colorful
+ * (see styles/tokens.css [data-preset]).
  * Components must use Tailwind token utilities (bg-surface, text-accent, etc.)
  * — never hard-coded hex values.
  */
 export const designTokens = {
   colors: {
-    // Surfaces
-    // Dark values follow macOS System Settings
+    // Surfaces — Normal (flat) defaults; glossy/colorful override via CSS
     canvas: { light: "#F5F5F7", dark: "#1C1C1E" },
     surface: { light: "#FFFFFF", dark: "#2C2C2E" },
     "surface-secondary": { light: "#F2F2F7", dark: "#3A3A3C" },
@@ -29,7 +29,7 @@ export const designTokens = {
     "foreground-muted": { light: "#8E8E93", dark: "#8E8E93" },
     "foreground-inverse": { light: "#FFFFFF", dark: "#FFFFFF" },
 
-    // Accent (primary actions / selected)
+    // Accent
     accent: { light: "#0071E3", dark: "#0A84FF" },
     "accent-hover": { light: "#0077ED", dark: "#409CFF" },
     "accent-muted": { light: "#E8F2FC", dark: "#0A84FF38" },
@@ -48,6 +48,7 @@ export const designTokens = {
     // Overlay
     overlay: { light: "rgba(0,0,0,0.4)", dark: "rgba(0,0,0,0.55)" },
   },
+  presets: ["normal", "glossy", "colorful"] as const,
   radius: {
     sm: "6px",
     md: "8px",

@@ -12,7 +12,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-accent text-foreground-inverse hover:bg-accent-hover shadow-sm",
+          "bg-accent text-foreground-inverse shadow-sm [background-image:var(--button-primary-image)] hover:bg-accent-hover hover:[background-image:var(--button-primary-image-hover)]",
         secondary:
           "bg-surface-secondary text-foreground border border-border hover:bg-sidebar-hover",
         ghost: "bg-transparent text-foreground hover:bg-surface-secondary",
