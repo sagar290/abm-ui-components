@@ -73,7 +73,8 @@ export function DomainSelect({
             side="bottom"
             sideOffset={6}
             avoidCollisions={false}
-            className="z-[100] min-w-[200px] rounded-xl border border-border bg-surface p-1 shadow-lg"
+            data-chrome="popover"
+            className="z-[100] min-w-[200px] rounded-xl border border-border bg-popover p-1 shadow-lg"
           >
             {domains.map((d) => (
               <Button

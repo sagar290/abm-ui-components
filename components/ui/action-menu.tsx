@@ -50,10 +50,11 @@ export function ActionMenu({
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
+          data-chrome="popover"
           align={align}
           sideOffset={6}
           className={cn(
-            "z-50 min-w-[180px] overflow-hidden rounded-xl border border-border bg-surface p-1 shadow-lg"
+            "z-50 min-w-[180px] overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-lg"
           )}
         >
           {items.map((item) => (

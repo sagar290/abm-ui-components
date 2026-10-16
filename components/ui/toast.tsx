@@ -8,7 +8,7 @@ import { cn } from "../../lib/utils";
 import { Button } from "./button";
 
 const toastVariants = cva(
-  "pointer-events-auto relative flex w-full items-start gap-3 rounded-xl border bg-surface p-4 shadow-lg",
+  "pointer-events-auto relative flex w-full items-start gap-3 rounded-xl border bg-popover p-4 shadow-lg",
   {
     variants: {
       variant: {

@@ -67,11 +67,11 @@ export function Select({
       </SelectPrimitive.Trigger>
       <SelectPrimitive.Portal>
         <SelectPrimitive.Content
+          data-chrome="popover"
           position="popper"
           sideOffset={4}
           className={cn(
-            "z-50 max-h-72 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xl border border-border bg-surface shadow-lg",
-            "data-[state=open]:animate-in data-[state=closed]:animate-out"
+            "z-50 max-h-72 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xl border border-border bg-popover shadow-lg"
           )}
         >
           <SelectPrimitive.Viewport className="p-1">

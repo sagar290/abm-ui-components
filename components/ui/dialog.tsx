@@ -41,12 +41,9 @@ export function Dialog({
         <DialogPrimitive.Content
           data-chrome="dialog"
           className={cn(
-            "fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2",
-            "rounded-2xl border border-border bg-surface p-6 shadow-lg",
+            "fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-h-[min(90dvh,720px)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto",
+            "rounded-2xl border border-border bg-popover p-6 shadow-lg",
             "focus:outline-none",
-            "data-[state=open]:animate-in data-[state=closed]:animate-out",
-            "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
-            "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
             sizeClass[size],
             className
           )}
@@ -72,7 +69,7 @@ export function Dialog({
               </Button>
             </DialogPrimitive.Close>
           </div>
-          <div className="max-h-[min(70vh,560px)] overflow-y-auto">
+          <div className="max-h-[min(60vh,480px)] overflow-y-auto">
             {children}
           </div>
           {footer && (

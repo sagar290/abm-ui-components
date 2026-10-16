@@ -35,14 +35,12 @@ export function ThemePresetMenu({
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
+          data-chrome="popover"
           align="end"
           side="top"
           sideOffset={8}
           className={cn(
-            "z-50 w-[min(100vw-2rem,22rem)] rounded-2xl border border-border bg-surface p-3 shadow-lg",
-            "data-[state=open]:animate-in data-[state=closed]:animate-out",
-            "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
-            "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95"
+            "z-50 w-[min(100vw-2rem,22rem)] rounded-2xl border border-border bg-popover p-3 shadow-lg"
           )}
         >
           <div className="mb-2 px-0.5">
@@ -52,7 +50,7 @@ export function ThemePresetMenu({
             </p>
           </div>
           <ThemePicker layout="stack" />
-          <Popover.Arrow className="fill-surface" />
+          <Popover.Arrow className="fill-popover" />
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
