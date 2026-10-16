@@ -6,10 +6,10 @@ Reusable admin-console UI kit and demo app inspired by Apple Business Manager’
 See **[CONSUMING.md](./CONSUMING.md)** for install via git tag, peer deps, Tailwind wire-up, and the PR checklist.
 
 ```bash
-npm install git+https://github.com/sagar290/abm-ui-components.git#1.1.0
+npm install git+https://github.com/sagar290/abm-ui-components.git#1.2.0
 ```
 
-Existing remote tags use semver (e.g. `1.0.0`). Living catalog: `/design-system` in this app, or optional [GitHub Pages](./.github/workflows/pages.yml) after enabling Actions as the Pages source.
+Current kit tag: **`1.2.0`** (semver: `1.0.0`, `1.1.0`, `1.2.0`, …). Living catalog: `/design-system` in this app, or optional [GitHub Pages](./.github/workflows/pages.yml) after enabling Actions as the Pages source.
 
 ## Screenshots
 
@@ -105,17 +105,27 @@ On small screens, panes collapse with a menu / back button.
 4. **Do not** add raw `<button>` / `<input>` / card markup in the feature. If something is missing, extend an existing UI component or add one to `/components/ui`, export it from `index.ts`, and document it on `/design-system`.
 5. Finish with a **Reuse report** (used / extended / new).
 
-## Design tokens
+## Design tokens & theming
 
-Colors, radius, shadows, and fonts live as CSS variables in `styles/tokens.css` (exported as `@abm/ui/styles.css`). The demo app imports them from `app/globals.css`. Components use token utilities (`bg-surface`, `text-accent`, `rounded-xl`, `shadow-md`) — never hard-coded hex in UI code. Dark mode is class-based (`html.dark`). Preference is stored in `localStorage` (`abm-theme`: `light` | `dark` | `system`) and applied before paint to avoid a flash.
+Colors, radius, shadows, and fonts live as CSS variables in `styles/tokens.css` (exported as `@abm/ui/styles.css`). The demo app imports them from `app/globals.css`. Components use token utilities (`bg-surface`, `text-accent`, `rounded-xl`, `shadow-md`) — never hard-coded hex in UI code.
+
+| Concern | How it works |
+|---------|----------------|
+| Light / dark | Class-based (`html.dark`). Stored as `abm-theme`: `light` \| `dark` \| `system` |
+| Style presets | `data-preset` on the root: `normal` \| `glossy` \| `colorful` (`abm-preset`) |
+| Custom colors | Optional brand/status/surface overrides (`abm-custom-colors`) via `ThemeCustomizer` |
+| Flash avoidance | `themeBootstrapScript` from `@abm/ui/theme` runs before paint |
+
+Shell chrome exposes `ThemeToggle`, `ThemePresetMenu`, and `ThemeCustomizer`. Full controls and token docs live on `/design-system`.
 
 ## Releasing the kit
 
-Remote already uses semver tags (`1.0.0`, …). Cut the next version on `main`:
+Remote already uses semver tags (`1.0.0`, `1.1.0`, `1.2.0`, …). Cut the next version on `main`:
 
 ```bash
-git tag -a 1.1.0 -m "1.1.0"
-git push origin 1.1.0
+# bump package.json "version", commit, then:
+git tag -a 1.3.0 -m "1.3.0: short summary"
+git push origin 1.3.0
 ```
 
 Consumers bump the `#1.x.x` pin. Pushing a version tag also deploys the optional Pages catalog when GitHub Pages is set to Actions.
