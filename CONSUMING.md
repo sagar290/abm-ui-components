@@ -127,7 +127,7 @@ Copy the reuse rules from [`AGENTS.md`](./AGENTS.md) into the consuming repo (or
 |-----|--------|
 | In-repo | [`/design-system`](./app/design-system/page.tsx) — review in PRs |
 | Local | `npm run dev` → http://localhost:3000/design-system |
-| Optional Pages | Push a semver tag (`*.*.*`) or run **Deploy design catalog to GitHub Pages**; enable Pages → Source = GitHub Actions. URL: `https://sagar290.github.io/abm-ui-components/design-system/` |
+| Optional Pages | Settings → Pages → Source = **GitHub Actions**; Environments → `github-pages` → allow `main` + tags (or no restriction). Then push `main`/a semver tag or run **Deploy design catalog to GitHub Pages**. URL: `https://sagar290.github.io/abm-ui-components/design-system/` |
 
 You do **not** need a separate Storybook host.
 
@@ -148,7 +148,7 @@ Use this in the kit repo **and** in every consuming app:
 ```bash
 # After merging kit changes to main (follow existing 1.0.0, 1.1.0, 1.2.0, … scheme):
 git tag -a 1.3.0 -m "1.3.0: short summary"
-git push origin 1.3.0   # also triggers optional Pages deploy
+git push origin 1.3.0   # also triggers optional Pages deploy (needs Pages Source = GitHub Actions)
 ```
 
 Announce the tag in consumer apps and bump their `#1.x.x` pin.

@@ -1,9 +1,17 @@
 # Optional static catalog — GitHub Pages only (no server you maintain).
-# Enable: Settings → Pages → Source = GitHub Actions.
+#
+# One-time setup (required or the job fails / serves the wrong tree):
+#   1. Settings → Pages → Build and deployment → Source = GitHub Actions
+#      (not "Deploy from a branch" — that publishes repo root, not the Next export)
+#   2. Settings → Environments → github-pages → Deployment branches and tags
+#      → "No restriction" (or allow `main` plus tags `*.*.*` / `v*`)
+#      Tag-only deploys fail with: Tag "x.y.z" is not allowed to deploy…
 name: Deploy design catalog to GitHub Pages
 
 on:
   push:
+    branches:
+      - main
     tags:
       - "v*"
       - "*.*.*"

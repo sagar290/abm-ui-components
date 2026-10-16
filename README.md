@@ -9,7 +9,7 @@ See **[CONSUMING.md](./CONSUMING.md)** for install via git tag, peer deps, Tailw
 npm install git+https://github.com/sagar290/abm-ui-components.git#1.2.0
 ```
 
-Current kit tag: **`1.2.0`** (semver: `1.0.0`, `1.1.0`, `1.2.0`, …). Living catalog: `/design-system` in this app, or optional [GitHub Pages](./.github/workflows/pages.yml) after enabling Actions as the Pages source.
+Current kit tag: **`1.2.0`** (semver: `1.0.0`, `1.1.0`, `1.2.0`, …). Living catalog: `/design-system` in this app, or optional GitHub Pages (see below).
 
 ## Screenshots
 
@@ -128,7 +128,20 @@ git tag -a 1.3.0 -m "1.3.0: short summary"
 git push origin 1.3.0
 ```
 
-Consumers bump the `#1.x.x` pin. Pushing a version tag also deploys the optional Pages catalog when GitHub Pages is set to Actions.
+Consumers bump the `#1.x.x` pin. Pushing `main` or a version tag also deploys the optional Pages catalog when Pages is configured as below.
+
+## GitHub Pages (design catalog)
+
+Static export URL: [https://sagar290.github.io/abm-ui-components/design-system/](https://sagar290.github.io/abm-ui-components/design-system/)
+
+**Required settings** (repo → Settings):
+
+1. **Pages → Build and deployment → Source = GitHub Actions**  
+   Do not use “Deploy from a branch” (`main` / `/`). That publishes the app source tree, not the Next `out/` export from [`.github/workflows/pages.yml`](./.github/workflows/pages.yml).
+2. **Environments → `github-pages` → Deployment branches and tags → No restriction**  
+   (or allow branch `main` and tags `*.*.*` / `v*`). If tags are blocked, Actions fails with *Tag "x.y.z" is not allowed to deploy to github-pages*.
+
+Then push to `main`, push a semver tag, or run **Actions → Deploy design catalog to GitHub Pages → Run workflow**.
 
 ## Accessibility
 
