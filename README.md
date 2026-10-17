@@ -4,7 +4,7 @@
 
 Reusable admin-console UI kit and demo app inspired by Apple Business Manager’s device and user management UX.
 
-**Package:** `@abm/ui` · **Maintained on GitHub only** (no registry or design-system server).  
+**Package:** `@abm/ui` · **License:** [MIT](./LICENSE) · **Maintained on GitHub only** (no registry or design-system server).  
 See **[CONSUMING.md](./CONSUMING.md)** for install via git tag, peer deps, Tailwind wire-up, and the PR checklist.
 
 ```bash
@@ -161,3 +161,7 @@ Then push to `main`, push a semver tag, or run **Actions → Deploy design catal
 - Dialogs trap focus and close on ESC
 - Destructive actions are visually separated and confirmed
 - Badges and toolbar actions expose accessible names
+
+## License
+
+MIT — see [LICENSE](./LICENSE).

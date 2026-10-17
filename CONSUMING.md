@@ -2,7 +2,7 @@
 
 This kit is maintained **only on GitHub** — no private npm registry and no always-on design-system server. Install a tagged commit; upgrade by bumping the tag.
 
-**Repository:** [sagar290/abm-ui-components](https://github.com/sagar290/abm-ui-components)
+**Repository:** [sagar290/abm-ui-components](https://github.com/sagar290/abm-ui-components) · **License:** MIT
 
 ## Install (git dependency)
 

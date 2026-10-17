@@ -2,7 +2,7 @@
   "name": "@abm/ui",
   "version": "1.5.0",
   "description": "Apple Business–style admin console UI kit (components, tokens, theme). Install from GitHub — no registry server.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sagar290/abm-ui-components.git"
@@ -27,7 +27,8 @@
     "styles",
     "types",
     "AGENTS.md",
-    "CONSUMING.md"
+    "CONSUMING.md",
+    "LICENSE"
   ],
   "sideEffects": [
     "**/*.css"
