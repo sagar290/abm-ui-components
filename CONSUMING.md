@@ -7,17 +7,17 @@ This kit is maintained **only on GitHub** — no private npm registry and no alw
 ## Install (git dependency)
 
 ```bash
-npm install git+https://github.com/sagar290/abm-ui-components.git#1.4.0
+npm install git+https://github.com/sagar290/abm-ui-components.git#1.5.0
 ```
 
-This repo already versions with **semver git tags** (`1.0.0` … `1.4.0`, …). Pin the tag you want.
+This repo already versions with **semver git tags** (`1.0.0` … `1.5.0`, …). Pin the tag you want.
 
 Or in `package.json`:
 
 ```json
 {
   "dependencies": {
-    "@abm/ui": "git+https://github.com/sagar290/abm-ui-components.git#1.4.0"
+    "@abm/ui": "git+https://github.com/sagar290/abm-ui-components.git#1.5.0"
   }
 }
 ```
@@ -25,12 +25,12 @@ Or in `package.json`:
 SSH alternative:
 
 ```json
-"@abm/ui": "git+ssh://git@github.com/sagar290/abm-ui-components.git#1.4.0"
+"@abm/ui": "git+ssh://git@github.com/sagar290/abm-ui-components.git#1.5.0"
 ```
 
 ### Upgrade
 
-1. Kit maintainers cut a new semver tag (`1.5.0`, …) on this repo.
+1. Kit maintainers cut a new semver tag (`1.6.0`, …) on this repo.
 2. Consumers change the `#1.x.x` pin and run `npm install`.
 
 ### Optional: GitHub Packages
@@ -146,9 +146,9 @@ Use this in the kit repo **and** in every consuming app:
 ## Releasing a new kit version (maintainers)
 
 ```bash
-# After merging kit changes to main (follow existing 1.0.0 … 1.4.0, … scheme):
-git tag -a 1.5.0 -m "1.5.0: short summary"
-git push origin 1.5.0   # also triggers optional Pages deploy (needs Pages Source = GitHub Actions)
+# After merging kit changes to main (follow existing 1.0.0 … 1.5.0, … scheme):
+git tag -a 1.6.0 -m "1.6.0: short summary"
+git push origin 1.6.0   # also triggers optional Pages deploy (needs Pages Source = GitHub Actions)
 ```
 
 Announce the tag in consumer apps and bump their `#1.x.x` pin.

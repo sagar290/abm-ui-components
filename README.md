@@ -8,16 +8,18 @@ Reusable admin-console UI kit and demo app inspired by Apple Business Manager’
 See **[CONSUMING.md](./CONSUMING.md)** for install via git tag, peer deps, Tailwind wire-up, and the PR checklist.
 
 ```bash
-npm install git+https://github.com/sagar290/abm-ui-components.git#1.4.0
+npm install git+https://github.com/sagar290/abm-ui-components.git#1.5.0
 ```
 
-Current kit tag: **`1.4.0`** (semver: `1.0.0` … `1.4.0`, …). Living catalog: `/design-system` in this app, or optional GitHub Pages (see below).
+Current kit tag: **`1.5.0`** (semver: `1.0.0` … `1.5.0`, …). Living catalog: `/design-system` in this app, or optional GitHub Pages (see below).
 
 ## Support
 
 If this kit helps your project, you can sponsor via:
 
 [![Support on Polar](https://img.shields.io/badge/Support-Polar-blue)](https://buy.polar.sh/polar_cl_0WgX5W8w1NAg4quzE0uckh8Ib4yN01PuoewKc2NL0ys)
+
+The demo also shows a floating **`SupportFab`** (heart pill, bottom-right) that opens the same Polar checkout. Export it from `@abm/ui` and pass `href` / `label` if you want a different link.
 
 Thank you.
 
@@ -126,16 +128,16 @@ Colors, radius, shadows, and fonts live as CSS variables in `styles/tokens.css` 
 | Custom colors | Optional brand/status/surface overrides (`abm-custom-colors`) via `ThemeCustomizer` |
 | Flash avoidance | `themeBootstrapScript` from `@abm/ui/theme` runs before paint |
 
-Shell chrome exposes `ThemeToggle`, `ThemePresetMenu`, and `ThemeCustomizer`. Full controls and token docs live on `/design-system`.
+Shell chrome exposes `ThemeToggle`, `ThemePresetMenu`, `ThemeCustomizer`, and `SupportFab` (Polar). `BrandMark` uses the iridescent flask SVG mark. Full controls and token docs live on `/design-system`.
 
 ## Releasing the kit
 
-Remote already uses semver tags (`1.0.0` … `1.4.0`, …). Cut the next version on `main`:
+Remote already uses semver tags (`1.0.0` … `1.5.0`, …). Cut the next version on `main`:
 
 ```bash
 # bump package.json "version", commit, then:
-git tag -a 1.5.0 -m "1.5.0: short summary"
-git push origin 1.5.0
+git tag -a 1.6.0 -m "1.6.0: short summary"
+git push origin 1.6.0
 ```
 
 Consumers bump the `#1.x.x` pin. Pushing `main` or a version tag also deploys the optional Pages catalog when Pages is configured as below.
