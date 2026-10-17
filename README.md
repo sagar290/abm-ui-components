@@ -15,10 +15,10 @@ Current kit tag: **`1.4.0`** (semver: `1.0.0` … `1.4.0`, …). Living catalog:
 
 ## Support
 
-If this kit helps your project:
+If this kit helps your project, you can sponsor via:
 
-- [Support on Polar](https://buy.polar.sh/polar_cl_0WgX5W8w1NAg4quzE0uckh8Ib4yN01PuoewKc2NL0ys)
-- [Support via Wise](https://wise.com/pay/r/cwvY1WWWGbRmCqs)
+[![Support on Polar](https://img.shields.io/badge/Support-Polar-blue)](https://buy.polar.sh/polar_cl_0WgX5W8w1NAg4quzE0uckh8Ib4yN01PuoewKc2NL0ys)
+[![Support via Wise](https://img.shields.io/badge/Support-Wise-00B9FF)](https://wise.com/pay/r/cwvY1WWWGbRmCqs)
 
 Thank you.
 
