@@ -1,5 +1,7 @@
 # Business Manager Admin Console (POC)
 
+![@abm/ui cover](docs/cover.jpg)
+
 Reusable admin-console UI kit and demo app inspired by Apple Business Manager’s device and user management UX.
 
 **Package:** `@abm/ui` · **Maintained on GitHub only** (no registry or design-system server).  
