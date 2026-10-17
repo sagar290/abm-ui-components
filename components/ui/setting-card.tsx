@@ -55,6 +55,7 @@ export function SettingCard({
 
   return (
     <article
+      data-chrome="panel"
       className={cn(
         "flex flex-col gap-3 rounded-xl border border-border-subtle bg-surface p-5",
         highlighted &&

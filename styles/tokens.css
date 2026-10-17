@@ -431,7 +431,8 @@
 [data-preset="colorful"] [data-chrome="dialog"],
 [data-preset="colorful"] [data-chrome="panel"] {
   isolation: isolate;
-  overflow: hidden;
+  /* clip specular without creating a scroll trap (overflow:hidden ate child scroll) */
+  overflow: clip;
   /* Blur 21.8% + slight saturate so wallpaper color bleeds through */
   backdrop-filter: blur(var(--surface-blur)) saturate(1.8);
   -webkit-backdrop-filter: blur(var(--surface-blur)) saturate(1.8);
@@ -444,13 +445,13 @@
     var(--chrome-border-highlight)
   );
   background-color: var(--color-surface);
-  /* Dark tint (42%) under specular sheen — Liquid Glass stack */
+  /* Soft specular only — avoid heavy white wash over custom/dark fills */
   background-image:
     linear-gradient(
       180deg,
-      color-mix(in srgb, #ffffff 55%, transparent) 0%,
-      color-mix(in srgb, #ffffff 22%, transparent) 48%,
-      color-mix(in srgb, #ffffff 38%, transparent) 100%
+      color-mix(in srgb, #ffffff 28%, transparent) 0%,
+      transparent 45%,
+      color-mix(in srgb, #ffffff 12%, transparent) 100%
     ),
     linear-gradient(var(--glass-dark-tint, rgba(15, 23, 42, 0.1)), var(--glass-dark-tint, rgba(15, 23, 42, 0.1)));
 }
@@ -474,17 +475,17 @@
     linear-gradient(var(--glass-dark-tint, rgba(0, 0, 0, 0.45)), var(--glass-dark-tint, rgba(0, 0, 0, 0.45)));
 }
 
-/* Menus / selects / floating layers — near-opaque so content never bleeds through */
+/* Menus / selects / floating layers — near-opaque so content never bleeds through.
+   Leave overflow to the component (Select clips; ThemeCustomizer scrolls an inner pane). */
 [data-preset="glossy"] [data-chrome="popover"],
 [data-preset="colorful"] [data-chrome="popover"] {
   isolation: isolate;
-  overflow: hidden;
   backdrop-filter: blur(var(--surface-blur)) saturate(1.4);
   -webkit-backdrop-filter: blur(var(--surface-blur)) saturate(1.4);
   background-color: var(--color-popover);
   background-image: linear-gradient(
     160deg,
-    color-mix(in srgb, #ffffff 18%, transparent) 0%,
+    color-mix(in srgb, #ffffff 12%, transparent) 0%,
     transparent 55%
   );
   box-shadow: var(--shadow-lg);
@@ -548,11 +549,21 @@
   box-shadow: var(--shadow-lg);
 }
 
-/* Glossy secondary / ghost controls also pick up a faint glass sheen */
+/* Glass controls — soft blur without bleaching fills */
 [data-preset="glossy"] button[class*="bg-surface-secondary"],
-[data-preset="glossy"] button[class*="bg-surface"] {
+[data-preset="glossy"] button[class*="bg-surface"],
+[data-preset="colorful"] button[class*="bg-surface-secondary"],
+[data-preset="colorful"] button[class*="bg-surface"] {
   backdrop-filter: blur(12px) saturate(1.3);
   -webkit-backdrop-filter: blur(12px) saturate(1.3);
+}
+
+/* Nested fields stay on secondary fill so custom white surface doesn’t flatline inputs */
+[data-preset="glossy"] input:not([type="color"]):not([type="checkbox"]):not([type="radio"]),
+[data-preset="glossy"] textarea,
+[data-preset="colorful"] input:not([type="color"]):not([type="checkbox"]):not([type="radio"]),
+[data-preset="colorful"] textarea {
+  background-color: var(--color-surface-secondary);
 }
 
 @theme inline {

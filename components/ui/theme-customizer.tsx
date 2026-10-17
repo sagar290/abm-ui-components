@@ -69,7 +69,7 @@ function ColorPickerBox({
   };
 
   return (
-    <div className="space-y-2 rounded-xl border border-border bg-surface-secondary/50 p-2.5">
+    <div className="space-y-2 rounded-xl border border-border bg-surface-secondary p-2.5">
       <label
         htmlFor={`${id}-picker`}
         className="relative block h-24 w-full cursor-pointer overflow-hidden rounded-lg border border-border shadow-sm"
@@ -107,7 +107,7 @@ function ColorPickerBox({
               onClick={() => onChange(swatch)}
               className={cn(
                 "h-6 w-full rounded-md border border-border shadow-sm transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                selected && "ring-2 ring-ring ring-offset-1 ring-offset-surface"
+                selected && "ring-2 ring-ring ring-offset-1 ring-offset-popover"
               )}
               style={{ backgroundColor: swatch }}
             />
@@ -239,55 +239,58 @@ export function ThemeCustomizer({
           align="end"
           side="top"
           sideOffset={8}
+          collisionPadding={16}
           className={cn(
-            "z-50 max-h-[min(80vh,36rem)] w-[min(100vw-2rem,22rem)] overflow-y-auto rounded-2xl border border-border bg-popover p-3 shadow-lg"
+            "z-50 flex max-h-[min(80vh,36rem)] w-[min(100vw-2rem,22rem)] flex-col rounded-2xl border border-border bg-popover p-0 shadow-lg"
           )}
         >
-          <div className="mb-3 flex items-start justify-between gap-2 px-0.5">
-            <div>
-              <p className="text-sm font-semibold text-foreground">
-                Custom colors
-              </p>
-              <p className="text-xs text-foreground-secondary">
-                Pick from the spectrum, quick swatches, or enter a hex value.
-              </p>
-            </div>
-            <div className="flex shrink-0 items-center gap-1">
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                onClick={copyPresetCode}
-                aria-label="Copy preset code"
-                leftIcon={
-                  copied ? (
-                    <Check className="h-3.5 w-3.5" />
-                  ) : (
-                    <Copy className="h-3.5 w-3.5" />
-                  )
-                }
-              >
-                {copied ? "Copied" : "Copy"}
-              </Button>
-              {hasCustomColors && (
+          <div className="shrink-0 space-y-3 border-b border-border-subtle p-3">
+            <div className="flex items-start justify-between gap-2 px-0.5">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-foreground">
+                  Custom colors
+                </p>
+                <p className="text-xs text-foreground-secondary">
+                  Pick from the spectrum, quick swatches, or enter a hex value.
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-1">
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="secondary"
                   size="sm"
-                  onClick={resetCustomColors}
-                  aria-label="Reset custom colors"
-                  leftIcon={<RotateCcw className="h-3.5 w-3.5" />}
+                  onClick={copyPresetCode}
+                  aria-label="Copy preset code"
+                  leftIcon={
+                    copied ? (
+                      <Check className="h-3.5 w-3.5" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )
+                  }
                 >
-                  Reset
+                  {copied ? "Copied" : "Copy"}
                 </Button>
-              )}
+                {hasCustomColors && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={resetCustomColors}
+                    aria-label="Reset custom colors"
+                    leftIcon={<RotateCcw className="h-3.5 w-3.5" />}
+                  >
+                    Reset
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain p-3">
             {groups.map(({ group, fields }) => (
               <div key={group} className="space-y-3">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-foreground-muted">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-foreground-secondary">
                   {GROUP_LABELS[group]}
                 </p>
                 {fields.map((field) => (
@@ -302,28 +305,28 @@ export function ThemeCustomizer({
                 ))}
               </div>
             ))}
-          </div>
 
-          <div className="mt-3 grid grid-cols-4 gap-1.5 rounded-xl border border-border-subtle bg-surface-secondary/60 p-2.5">
-            {(
-              [
-                "primary",
-                "secondary",
-                "highlight",
-                "success",
-                "danger",
-                "warning",
-                "canvas",
-                "surface",
-              ] as const
-            ).map((key) => (
-              <span
-                key={key}
-                className="h-7 rounded-md border border-border shadow-sm"
-                style={{ backgroundColor: values[key] }}
-                title={key}
-              />
-            ))}
+            <div className="grid grid-cols-4 gap-1.5 rounded-xl border border-border-subtle bg-surface-secondary p-2.5">
+              {(
+                [
+                  "primary",
+                  "secondary",
+                  "highlight",
+                  "success",
+                  "danger",
+                  "warning",
+                  "canvas",
+                  "surface",
+                ] as const
+              ).map((key) => (
+                <span
+                  key={key}
+                  className="h-7 rounded-md border border-border shadow-sm"
+                  style={{ backgroundColor: values[key] }}
+                  title={key}
+                />
+              ))}
+            </div>
           </div>
 
           <Popover.Arrow className="fill-popover" />

@@ -33,7 +33,7 @@ export function SearchField({
         placeholder={placeholder}
         aria-label={placeholder}
         inputSize={inputSize}
-        className="border-transparent bg-surface-secondary pl-8 focus-visible:bg-surface"
+        className="border-transparent bg-surface-secondary pl-8 focus-visible:bg-surface-secondary focus-visible:ring-offset-surface"
         {...props}
       />
     </div>

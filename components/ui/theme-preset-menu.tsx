@@ -39,8 +39,9 @@ export function ThemePresetMenu({
           align="end"
           side="top"
           sideOffset={8}
+          collisionPadding={16}
           className={cn(
-            "z-50 w-[min(100vw-2rem,22rem)] rounded-2xl border border-border bg-popover p-3 shadow-lg"
+            "z-50 max-h-[min(80vh,28rem)] w-[min(100vw-2rem,22rem)] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-popover p-3 shadow-lg"
           )}
         >
           <div className="mb-2 px-0.5">

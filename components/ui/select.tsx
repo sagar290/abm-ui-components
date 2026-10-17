@@ -51,7 +51,7 @@ export function Select({
         id={id}
         aria-invalid={invalid || undefined}
         className={cn(
-          "flex h-10 w-full items-center justify-between gap-2 rounded-lg border bg-surface px-3 text-sm text-foreground transition-colors",
+          "flex h-10 w-full items-center justify-between gap-2 rounded-lg border bg-surface-secondary px-3 text-sm text-foreground transition-colors",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface",
           "disabled:cursor-not-allowed disabled:opacity-50",
           "data-[placeholder]:text-foreground-muted",

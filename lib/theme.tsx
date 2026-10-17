@@ -259,6 +259,80 @@ function rgba(hex: string, alpha: number): string {
   return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
 }
 
+/** Relative luminance 0–1 (sRGB). Used to keep dark glass from going pale white. */
+function hexLuminance(hex: string): number {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return 0.5;
+  const toLin = (c: number) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * toLin(rgb.r) + 0.7152 * toLin(rgb.g) + 0.0722 * toLin(rgb.b);
+}
+
+/**
+ * Map custom canvas/surface hexes onto tokens without bleaching dark/glass UIs.
+ * Solid light surfaces in dark mode caused pale white cards + unreadable type.
+ */
+function surfaceTokenValues(
+  root: HTMLElement,
+  canvas: string,
+  surface: string,
+  highlight: string
+): {
+  canvas: string;
+  surface: string;
+  popover: string;
+  surfaceSecondary: string;
+  sidebar: string;
+} {
+  const isDark = root.classList.contains("dark");
+  const preset = root.getAttribute("data-preset");
+  const isGlass = preset === "glossy" || preset === "colorful";
+  const surfaceLight = hexLuminance(surface) > 0.55;
+  const canvasLight = hexLuminance(canvas) > 0.55;
+
+  if (isDark) {
+    const darkBase = preset === "colorful" ? "#1e1a28" : "#1a1d27";
+    const darkPopover = preset === "colorful" ? "#262230" : "#222632";
+    const darkCanvas = preset === "colorful" ? "#0e0c14" : "#07090f";
+    const darkSidebar = preset === "colorful" ? "#16131e" : "#14171f";
+    return {
+      canvas: canvasLight
+        ? `color-mix(in srgb, ${canvas} 22%, ${darkCanvas})`
+        : canvas,
+      surface: surfaceLight
+        ? `color-mix(in srgb, ${surface} 16%, ${darkBase})`
+        : `color-mix(in srgb, ${surface} 70%, ${darkBase})`,
+      popover: surfaceLight
+        ? `color-mix(in srgb, ${surface} 10%, ${darkPopover})`
+        : `color-mix(in srgb, ${surface} 55%, ${darkPopover})`,
+      surfaceSecondary: `color-mix(in srgb, ${highlight} 18%, ${darkBase})`,
+      sidebar: canvasLight
+        ? `color-mix(in srgb, ${canvas} 18%, ${darkSidebar})`
+        : `color-mix(in srgb, ${canvas} 55%, ${darkSidebar})`,
+    };
+  }
+
+  if (isGlass) {
+    return {
+      canvas,
+      surface: `color-mix(in srgb, ${surface} 55%, transparent)`,
+      popover: `color-mix(in srgb, ${surface} 94%, transparent)`,
+      surfaceSecondary: `color-mix(in srgb, ${highlight} 10%, ${surface})`,
+      sidebar: `color-mix(in srgb, ${canvas} 48%, transparent)`,
+    };
+  }
+
+  return {
+    canvas,
+    surface,
+    popover: surface,
+    surfaceSecondary: rgba(highlight, 0.08),
+    sidebar: canvas,
+  };
+}
+
 function parseCustomColors(raw: string | null): CustomColors | null {
   if (!raw) return null;
   try {
@@ -293,6 +367,7 @@ function clearCustomColorStyles(root: HTMLElement) {
   for (const key of CUSTOM_CSS_VARS) {
     root.style.removeProperty(key);
   }
+  root.style.removeProperty("--color-popover");
 }
 
 function applyCustomColorStyles(root: HTMLElement, colors: CustomColors | null) {
@@ -312,6 +387,8 @@ function applyCustomColorStyles(root: HTMLElement, colors: CustomColors | null) 
     surface,
   } = colors;
 
+  const surfaces = surfaceTokenValues(root, canvas, surface, highlight);
+
   root.style.setProperty("--color-accent", primary);
   root.style.setProperty("--color-accent-hover", darkenHex(primary));
   root.style.setProperty("--color-accent-muted", rgba(highlight, 0.22));
@@ -325,13 +402,11 @@ function applyCustomColorStyles(root: HTMLElement, colors: CustomColors | null) 
   root.style.setProperty("--color-danger-muted", rgba(danger, 0.2));
   root.style.setProperty("--color-warning", warning);
   root.style.setProperty("--color-warning-muted", rgba(warning, 0.2));
-  root.style.setProperty("--color-canvas", canvas);
-  root.style.setProperty("--color-surface", surface);
-  root.style.setProperty(
-    "--color-surface-secondary",
-    rgba(highlight, 0.08)
-  );
-  root.style.setProperty("--color-sidebar", canvas);
+  root.style.setProperty("--color-canvas", surfaces.canvas);
+  root.style.setProperty("--color-surface", surfaces.surface);
+  root.style.setProperty("--color-popover", surfaces.popover);
+  root.style.setProperty("--color-surface-secondary", surfaces.surfaceSecondary);
+  root.style.setProperty("--color-sidebar", surfaces.sidebar);
   root.style.setProperty("--color-banner", rgba(highlight, 0.1));
   root.style.setProperty("--shadow-focus", `0 0 0 3px ${rgba(highlight, 0.4)}`);
   // Solid primary so custom color wins over colorful preset gradients
@@ -426,7 +501,7 @@ function applyCustomColors(
 }
 
 /** Inline bootstrap — run before paint to avoid a light / wrong-preset flash. */
-export const themeBootstrapScript = `(function(){try{var tk=${JSON.stringify(THEME_STORAGE_KEY)};var pk=${JSON.stringify(PRESET_STORAGE_KEY)};var ck=${JSON.stringify(CUSTOM_COLORS_STORAGE_KEY)};var t=localStorage.getItem(tk)||"system";var p=localStorage.getItem(pk)||"normal";if(p!=="normal"&&p!=="glossy"&&p!=="colorful")p="normal";var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var r=t==="dark"||(t!=="light"&&d);var e=document.documentElement;e.classList.toggle("dark",r);e.style.colorScheme=r?"dark":"light";e.setAttribute("data-preset",p);var raw=localStorage.getItem(ck);if(raw){var c=JSON.parse(raw);var hex=/^#[0-9a-fA-F]{6}$/;if(c&&hex.test(c.primary)&&hex.test(c.secondary)&&hex.test(c.highlight)){var def=${JSON.stringify(DEFAULT_CUSTOM_COLORS)};function pick(k){return hex.test(c[k])?c[k]:def[k];}function darken(h,a){var n=parseInt(h.slice(1),16);var R=(n>>16)&255,G=(n>>8)&255,B=n&255;R=Math.max(0,Math.min(255,Math.round(R*(1-a))));G=Math.max(0,Math.min(255,Math.round(G*(1-a))));B=Math.max(0,Math.min(255,Math.round(B*(1-a))));return"#"+((1<<24)|(R<<16)|(G<<8)|B).toString(16).slice(1);}function rgba(h,a){var n=parseInt(h.slice(1),16);return"rgba("+((n>>16)&255)+","+((n>>8)&255)+","+(n&255)+","+a+")";}var primary=pick("primary"),secondary=pick("secondary"),highlight=pick("highlight"),success=pick("success"),danger=pick("danger"),warning=pick("warning"),canvas=pick("canvas"),surface=pick("surface");e.style.setProperty("--color-accent",primary);e.style.setProperty("--color-accent-hover",darken(primary,0.14));e.style.setProperty("--color-accent-muted",rgba(highlight,0.22));e.style.setProperty("--color-ring",highlight);e.style.setProperty("--color-info",secondary);e.style.setProperty("--color-info-muted",rgba(secondary,0.2));e.style.setProperty("--color-success",success);e.style.setProperty("--color-success-muted",rgba(success,0.2));e.style.setProperty("--color-danger",danger);e.style.setProperty("--color-danger-hover",darken(danger,0.14));e.style.setProperty("--color-danger-muted",rgba(danger,0.2));e.style.setProperty("--color-warning",warning);e.style.setProperty("--color-warning-muted",rgba(warning,0.2));e.style.setProperty("--color-canvas",canvas);e.style.setProperty("--color-surface",surface);e.style.setProperty("--color-surface-secondary",rgba(highlight,0.08));e.style.setProperty("--color-sidebar",canvas);e.style.setProperty("--color-banner",rgba(highlight,0.1));e.style.setProperty("--shadow-focus","0 0 0 3px "+rgba(highlight,0.4));e.style.setProperty("--button-primary-image","none");e.style.setProperty("--button-primary-image-hover","none");}}}catch(err){}})();`;
+export const themeBootstrapScript = `(function(){try{var tk=${JSON.stringify(THEME_STORAGE_KEY)};var pk=${JSON.stringify(PRESET_STORAGE_KEY)};var ck=${JSON.stringify(CUSTOM_COLORS_STORAGE_KEY)};var t=localStorage.getItem(tk)||"system";var p=localStorage.getItem(pk)||"normal";if(p!=="normal"&&p!=="glossy"&&p!=="colorful")p="normal";var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var r=t==="dark"||(t!=="light"&&d);var e=document.documentElement;e.classList.toggle("dark",r);e.style.colorScheme=r?"dark":"light";e.setAttribute("data-preset",p);var raw=localStorage.getItem(ck);if(raw){var c=JSON.parse(raw);var hex=/^#[0-9a-fA-F]{6}$/;if(c&&hex.test(c.primary)&&hex.test(c.secondary)&&hex.test(c.highlight)){var def=${JSON.stringify(DEFAULT_CUSTOM_COLORS)};function pick(k){return hex.test(c[k])?c[k]:def[k];}function darken(h,a){var n=parseInt(h.slice(1),16);var R=(n>>16)&255,G=(n>>8)&255,B=n&255;R=Math.max(0,Math.min(255,Math.round(R*(1-a))));G=Math.max(0,Math.min(255,Math.round(G*(1-a))));B=Math.max(0,Math.min(255,Math.round(B*(1-a))));return"#"+((1<<24)|(R<<16)|(G<<8)|B).toString(16).slice(1);}function rgba(h,a){var n=parseInt(h.slice(1),16);return"rgba("+((n>>16)&255)+","+((n>>8)&255)+","+(n&255)+","+a+")";}function lum(h){var n=parseInt(h.slice(1),16);function L(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);}return 0.2126*L((n>>16)&255)+0.7152*L((n>>8)&255)+0.0722*L(n&255);}var primary=pick("primary"),secondary=pick("secondary"),highlight=pick("highlight"),success=pick("success"),danger=pick("danger"),warning=pick("warning"),canvas=pick("canvas"),surface=pick("surface");var glass=p==="glossy"||p==="colorful";var sL=lum(surface)>0.55,cL=lum(canvas)>0.55;var cv=canvas,sf=surface,po=surface,ss=rgba(highlight,0.08),sb=canvas;if(r){var db=p==="colorful"?"#1e1a28":"#1a1d27",dp=p==="colorful"?"#262230":"#222632",dc=p==="colorful"?"#0e0c14":"#07090f",ds=p==="colorful"?"#16131e":"#14171f";cv=cL?"color-mix(in srgb, "+canvas+" 22%, "+dc+")":canvas;sf=sL?"color-mix(in srgb, "+surface+" 16%, "+db+")":"color-mix(in srgb, "+surface+" 70%, "+db+")";po=sL?"color-mix(in srgb, "+surface+" 10%, "+dp+")":"color-mix(in srgb, "+surface+" 55%, "+dp+")";ss="color-mix(in srgb, "+highlight+" 18%, "+db+")";sb=cL?"color-mix(in srgb, "+canvas+" 18%, "+ds+")":"color-mix(in srgb, "+canvas+" 55%, "+ds+")";}else if(glass){sf="color-mix(in srgb, "+surface+" 55%, transparent)";po="color-mix(in srgb, "+surface+" 94%, transparent)";ss="color-mix(in srgb, "+highlight+" 10%, "+surface+")";sb="color-mix(in srgb, "+canvas+" 48%, transparent)";}e.style.setProperty("--color-accent",primary);e.style.setProperty("--color-accent-hover",darken(primary,0.14));e.style.setProperty("--color-accent-muted",rgba(highlight,0.22));e.style.setProperty("--color-ring",highlight);e.style.setProperty("--color-info",secondary);e.style.setProperty("--color-info-muted",rgba(secondary,0.2));e.style.setProperty("--color-success",success);e.style.setProperty("--color-success-muted",rgba(success,0.2));e.style.setProperty("--color-danger",danger);e.style.setProperty("--color-danger-hover",darken(danger,0.14));e.style.setProperty("--color-danger-muted",rgba(danger,0.2));e.style.setProperty("--color-warning",warning);e.style.setProperty("--color-warning-muted",rgba(warning,0.2));e.style.setProperty("--color-canvas",cv);e.style.setProperty("--color-surface",sf);e.style.setProperty("--color-popover",po);e.style.setProperty("--color-surface-secondary",ss);e.style.setProperty("--color-sidebar",sb);e.style.setProperty("--color-banner",rgba(highlight,0.1));e.style.setProperty("--shadow-focus","0 0 0 3px "+rgba(highlight,0.4));e.style.setProperty("--button-primary-image","none");e.style.setProperty("--button-primary-image-hover","none");}}}catch(err){}})();`;
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = React.useState<Theme>("system");
@@ -471,6 +546,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       const resolved = getSystemTheme();
       setResolvedTheme(resolved);
       applyTheme(resolved, { animate: true });
+      // Remap custom surfaces for the new appearance
+      applyCustomColors(
+        parseCustomColors(localStorage.getItem(CUSTOM_COLORS_STORAGE_KEY)),
+        { animate: true }
+      );
     };
     media.addEventListener("change", onChange);
     return () => media.removeEventListener("change", onChange);
@@ -482,12 +562,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setThemeState(next);
     setResolvedTheme(resolved);
     applyTheme(resolved, { animate: true });
+    applyCustomColors(
+      parseCustomColors(localStorage.getItem(CUSTOM_COLORS_STORAGE_KEY)),
+      { animate: true }
+    );
   }, []);
 
   const setPreset = React.useCallback((next: Preset) => {
     localStorage.setItem(PRESET_STORAGE_KEY, next);
     setPresetState(next);
     applyPreset(next, { animate: true });
+    applyCustomColors(
+      parseCustomColors(localStorage.getItem(CUSTOM_COLORS_STORAGE_KEY)),
+      { animate: true }
+    );
   }, []);
 
   const setCustomColors = React.useCallback((next: CustomColors | null) => {

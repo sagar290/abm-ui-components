@@ -109,7 +109,7 @@ export function FormField({
           )
         : children}
       {hint && !error && (
-        <p id={hintId} className="text-xs text-foreground-muted">
+        <p id={hintId} className="text-xs text-foreground-secondary">
           {hint}
         </p>
       )}

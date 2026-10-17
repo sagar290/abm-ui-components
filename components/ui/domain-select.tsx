@@ -39,7 +39,7 @@ export function DomainSelect({
   return (
     <div
       className={cn(
-        "flex w-full overflow-visible rounded-lg border bg-surface focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-surface",
+        "flex w-full overflow-visible rounded-lg border bg-surface-secondary focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-popover",
         invalid ? "border-danger" : "border-border",
         className
       )}
