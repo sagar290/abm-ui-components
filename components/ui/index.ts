@@ -97,6 +97,9 @@ export type { SidebarItemProps } from "./sidebar-item";
 export { StatusItem } from "./status-item";
 export type { StatusItemProps } from "./status-item";
 
+export { SupportFab, POLAR_SUPPORT_URL } from "./support-fab";
+export type { SupportFabProps } from "./support-fab";
+
 export { Tabs, TabPanel } from "./tabs";
 export type { TabsProps, TabItem, TabPanelProps } from "./tabs";
 

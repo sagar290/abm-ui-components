@@ -9,6 +9,7 @@ import { Overlay } from "./overlay";
 import { Sidebar } from "./sidebar";
 import { ThemeCustomizer } from "./theme-customizer";
 import { ThemePresetMenu } from "./theme-preset-menu";
+import { SupportFab } from "./support-fab";
 import { ThemeToggle } from "./theme-toggle";
 import type { ChecklistItem, NavItem, Organization } from "../../types";
 
@@ -140,11 +141,12 @@ export function AppShell({
         </div>
       </div>
 
-      <div className="pointer-events-none fixed bottom-4 right-4 z-30 hidden gap-2 lg:flex">
+      <div className="pointer-events-none fixed bottom-[4.75rem] right-4 z-30 hidden gap-2 lg:flex">
         <ThemeCustomizer className="pointer-events-auto" />
         <ThemePresetMenu className="pointer-events-auto" />
         <ThemeToggle className="pointer-events-auto" />
       </div>
+      <SupportFab />
     </div>
   );
 }

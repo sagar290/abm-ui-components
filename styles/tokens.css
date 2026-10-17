@@ -609,6 +609,24 @@
 
   --font-sans: var(--font-sans);
   --font-display: var(--font-display);
+
+  --animate-support-float: support-float 2.8s ease-in-out infinite;
+}
+
+@keyframes support-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-support-float {
+    animation: none !important;
+  }
 }
 
 /* Liquid Glass typography — SF optical sizing + near-black labels */

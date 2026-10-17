@@ -39,6 +39,7 @@ import {
   StatusItem,
   Tabs,
   TabPanel,
+  SupportFab,
   ThemeCustomizer,
   ThemePicker,
   ThemePresetMenu,
@@ -79,6 +80,7 @@ export default function DesignSystemPage() {
 
   return (
     <div className="min-h-dvh bg-canvas">
+      <SupportFab />
       <header className="sticky top-0 z-20 border-b border-border-subtle bg-surface/95 backdrop-blur px-6 py-4">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
           <div>
@@ -98,6 +100,15 @@ export default function DesignSystemPage() {
       </header>
 
       <main className="mx-auto flex max-w-5xl flex-col gap-6 p-6">
+        <CatalogSection
+          title="SupportFab"
+          description="Cute Polar support pill. Fixed in AppShell; hover expands the label. Inline variant for catalogs."
+        >
+          <div className="flex flex-wrap items-center gap-4">
+            <SupportFab position="inline" />
+          </div>
+        </CatalogSection>
+
         <CatalogSection
           title="ThemeToggle"
           description="Persisted light / dark / system. Icon cycles light↔dark; segmented exposes all three."
