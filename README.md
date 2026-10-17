@@ -6,10 +6,10 @@ Reusable admin-console UI kit and demo app inspired by Apple Business Manager’
 See **[CONSUMING.md](./CONSUMING.md)** for install via git tag, peer deps, Tailwind wire-up, and the PR checklist.
 
 ```bash
-npm install git+https://github.com/sagar290/abm-ui-components.git#1.2.0
+npm install git+https://github.com/sagar290/abm-ui-components.git#1.3.0
 ```
 
-Current kit tag: **`1.2.0`** (semver: `1.0.0`, `1.1.0`, `1.2.0`, …). Living catalog: `/design-system` in this app, or optional GitHub Pages (see below).
+Current kit tag: **`1.3.0`** (semver: `1.0.0`, `1.1.0`, `1.2.0`, `1.3.0`, …). Living catalog: `/design-system` in this app, or optional GitHub Pages (see below).
 
 ## Screenshots
 
@@ -120,12 +120,12 @@ Shell chrome exposes `ThemeToggle`, `ThemePresetMenu`, and `ThemeCustomizer`. Fu
 
 ## Releasing the kit
 
-Remote already uses semver tags (`1.0.0`, `1.1.0`, `1.2.0`, …). Cut the next version on `main`:
+Remote already uses semver tags (`1.0.0`, `1.1.0`, `1.2.0`, `1.3.0`, …). Cut the next version on `main`:
 
 ```bash
 # bump package.json "version", commit, then:
-git tag -a 1.3.0 -m "1.3.0: short summary"
-git push origin 1.3.0
+git tag -a 1.4.0 -m "1.4.0: short summary"
+git push origin 1.4.0
 ```
 
 Consumers bump the `#1.x.x` pin. Pushing `main` or a version tag also deploys the optional Pages catalog when Pages is configured as below.
