@@ -61,8 +61,14 @@ export type { ListItemProps } from "./list-item";
 export { ListPane } from "./list-pane";
 export type { ListPaneProps } from "./list-pane";
 
+export { LoginPortal } from "./login-portal";
+export type { LoginPortalProps } from "./login-portal";
+
 export { PageHeader } from "./page-header";
 export type { PageHeaderProps } from "./page-header";
+
+export { PasswordField } from "./password-field";
+export type { PasswordFieldProps } from "./password-field";
 
 export { PlaceholderPage } from "./placeholder-page";
 export type { PlaceholderPageProps } from "./placeholder-page";

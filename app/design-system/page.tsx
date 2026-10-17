@@ -29,6 +29,8 @@ import {
   InlineAlert,
   Input,
   ListItem,
+  LoginPortal,
+  PasswordField,
   ProgressBar,
   SearchField,
   SectionCard,
@@ -47,7 +49,7 @@ import {
   ToolbarAction,
   useToast,
 } from "@/components/ui";
-import { settingsCatalog } from "@/lib/mock-data";
+import { organizations, settingsCatalog } from "@/lib/mock-data";
 
 function CatalogSection({
   title,
@@ -74,9 +76,11 @@ export default function DesignSystemPage() {
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [username, setUsername] = React.useState("jordan.lee");
   const [domain, setDomain] = React.useState("managed.acme.com");
+  const [password, setPassword] = React.useState("");
   const [cardA, setCardA] = React.useState(true);
   const [cardB, setCardB] = React.useState(false);
   const [search, setSearch] = React.useState("");
+  const loginDomains = organizations.flatMap((org) => org.domains);
 
   return (
     <div className="min-h-dvh bg-canvas">
@@ -174,7 +178,7 @@ export default function DesignSystemPage() {
           </div>
         </CatalogSection>
 
-        <CatalogSection title="FormField · Input · Select · DomainSelect · SearchField">
+        <CatalogSection title="FormField · Input · Select · DomainSelect · PasswordField · SearchField">
           <div className="grid max-w-xl gap-4">
             <FormField id="ds-name" label="First name" required hint="As shown on ID">
               <Input placeholder="Jordan" />
@@ -202,12 +206,52 @@ export default function DesignSystemPage() {
                 onDomainChange={setDomain}
               />
             </FormField>
+            <FormField id="ds-password" label="Password">
+              <PasswordField
+                value={password}
+                onValueChange={setPassword}
+                placeholder="Password"
+              />
+            </FormField>
             <SearchField
               value={search}
               onValueChange={setSearch}
               placeholder="Search users"
             />
           </div>
+        </CatalogSection>
+
+        <CatalogSection
+          title="LoginPortal"
+          description="Full-viewport Managed Apple ID sign-in. Live demo on /login; compact preview below."
+        >
+          <div className="overflow-hidden rounded-xl border border-border-subtle">
+            <LoginPortal
+              density="compact"
+              showThemeControls={false}
+              username={username}
+              domain={domain}
+              domains={loginDomains.length ? loginDomains : ["managed.acme.com"]}
+              password={password}
+              onUsernameChange={setUsername}
+              onDomainChange={setDomain}
+              onPasswordChange={setPassword}
+              onSubmit={(e) => {
+                e.preventDefault();
+                toast({ title: "Sign-In (demo)", variant: "success" });
+              }}
+              forgotPasswordHref="/login"
+              helpHref="/login"
+              className="min-h-[28rem] py-8"
+            />
+          </div>
+          <p className="mt-3 text-sm text-foreground-secondary">
+            Open the full portal at{" "}
+            <Button variant="link" asChild>
+              <Link href="/login">/login</Link>
+            </Button>
+            .
+          </p>
         </CatalogSection>
 
         <CatalogSection
@@ -461,6 +505,10 @@ export default function DesignSystemPage() {
           Shell components (AppShell, Sidebar, ListPane, DetailPane) are demonstrated on{" "}
           <Button variant="link" asChild>
             <Link href="/users">/users</Link>
+          </Button>
+          . Sign-in portal:{" "}
+          <Button variant="link" asChild>
+            <Link href="/login">/login</Link>
           </Button>
           .
         </p>
