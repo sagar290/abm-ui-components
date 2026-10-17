@@ -1,6 +1,6 @@
 # Shows a Sponsor / funding button on the GitHub repo page.
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
-
+polar: sagar-dash
 custom:
   - "https://buy.polar.sh/polar_cl_0WgX5W8w1NAg4quzE0uckh8Ib4yN01PuoewKc2NL0ys"
   - "https://wise.com/pay/r/cwvY1WWWGbRmCqs"
