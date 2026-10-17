@@ -41,18 +41,28 @@ export function DetailPane({
       aria-label="Details"
     >
       {toolbar && (
-        <div className="shrink-0 border-b border-border-subtle bg-surface px-4 py-2">
+        <div
+          data-chrome="panel"
+          className="shrink-0 border-b border-border-subtle bg-surface px-4 py-2"
+        >
           {toolbar}
         </div>
       )}
       <div className="min-h-0 flex-1 overflow-y-auto">
         {header && (
-          <div className="border-b border-border-subtle bg-surface px-6 py-5">
+          <div
+            data-chrome="panel"
+            className="border-b border-border-subtle bg-surface px-6 py-5"
+          >
             {header}
           </div>
         )}
         {/* Tab list stays on the surface; TabPanel paints its own padded canvas body */}
-        {tabs && <div className="bg-surface">{tabs}</div>}
+        {tabs && (
+          <div data-chrome="panel" className="bg-surface">
+            {tabs}
+          </div>
+        )}
         {hasBody && <div className="space-y-4 p-6">{children}</div>}
       </div>
     </section>

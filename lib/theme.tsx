@@ -55,12 +55,12 @@ export const PRESETS: readonly {
   {
     id: "glossy",
     label: "Glossy",
-    description: "Frosted glass and soft depth",
+    description: "Liquid glass — blur, translucency, specular",
   },
   {
     id: "colorful",
     label: "Colorful Glossy",
-    description: "Glass plus iridescent accents",
+    description: "Liquid glass plus iridescent accents",
   },
 ] as const;
 

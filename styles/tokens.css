@@ -60,8 +60,11 @@
   --button-primary-image-hover: none;
   --canvas-glow: none;
 
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
-    Inter, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  /* SF Pro first (matches Apple Liquid Glass / system UI); system-ui fallback */
+  --font-sans: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont,
+    system-ui, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont,
+    system-ui, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
 .dark {
@@ -86,13 +89,13 @@
   --color-accent-muted: rgba(10, 132, 255, 0.22);
   --color-danger: #ff453a;
   --color-danger-hover: #ff6961;
-  --color-danger-muted: rgba(255, 69, 58, 0.22);
+  --color-danger-muted: color-mix(in srgb, #ff453a 28%, #2c2c2e);
   --color-warning: #ff9f0a;
-  --color-warning-muted: rgba(255, 159, 10, 0.22);
+  --color-warning-muted: color-mix(in srgb, #ff9f0a 28%, #2c2c2e);
   --color-success: #30d158;
-  --color-success-muted: rgba(48, 209, 88, 0.22);
+  --color-success-muted: color-mix(in srgb, #30d158 28%, #2c2c2e);
   --color-info: #0a84ff;
-  --color-info-muted: rgba(10, 132, 255, 0.22);
+  --color-info-muted: color-mix(in srgb, #0a84ff 28%, #2c2c2e);
   --color-overlay: rgba(0, 0, 0, 0.55);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -165,24 +168,40 @@
   --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
-/* Glossy — frosted glass: translucent fills, heavy blur, specular edges */
+/*
+ * Glossy ≈ Apple Liquid Glass (from inspector reference):
+ *   Opacity 100% · Blur 21.8% · Translucency 50% · Dark 42% · Shadow Neutral 50% · Specular on
+ * Typography: SF Pro, near-black primary, cool gray secondary, royal blue accent.
+ */
 [data-preset="glossy"] {
-  --color-canvas: #dce4f0;
-  /* Frosted but readable — keep enough white so text/menus don’t wash out */
-  --color-surface: color-mix(in srgb, #ffffff 86%, transparent);
-  --color-popover: color-mix(in srgb, #ffffff 96%, transparent);
-  --color-surface-secondary: color-mix(in srgb, #ffffff 78%, transparent);
-  --color-sidebar: color-mix(in srgb, #ffffff 82%, transparent);
-  --color-sidebar-hover: color-mix(in srgb, #ffffff 90%, transparent);
-  --color-sidebar-active: color-mix(in srgb, #ffffff 94%, transparent);
-  --color-banner: color-mix(in srgb, #ffffff 80%, transparent);
-  --color-border: color-mix(in srgb, #ffffff 72%, #a8b4c8);
-  --color-border-subtle: color-mix(in srgb, #ffffff 55%, #c5d0e0);
-  --color-ring: #5ac8fa;
+  /* Liquid Glass knobs (documented + used by chrome rules) */
+  --glass-blur: 22px; /* ~21.8% */
+  --glass-translucency: 0.5;
+  --glass-dark: 0.42;
+  --glass-shadow: 0.5;
+  --glass-dark-tint: rgba(15, 23, 42, 0.1); /* Dark ≈ 42% influence */
+
+  --color-canvas: #c8d6ea;
+  /* Translucency 50% — dark tint layer in chrome rules restores contrast for SF labels */
+  --color-surface: color-mix(in srgb, #ffffff 50%, transparent);
+  --color-popover: color-mix(in srgb, #ffffff 92%, transparent);
+  --color-surface-secondary: color-mix(in srgb, #ffffff 42%, transparent);
+  --color-sidebar: color-mix(in srgb, #ffffff 48%, transparent);
+  --color-sidebar-hover: color-mix(in srgb, #ffffff 62%, transparent);
+  --color-sidebar-active: color-mix(in srgb, #007aff 18%, #ffffff);
+  --color-banner: color-mix(in srgb, #ffffff 45%, transparent);
+  --color-border: color-mix(in srgb, #ffffff 65%, #9aadc4);
+  --color-border-subtle: color-mix(in srgb, #ffffff 45%, #b8c6d8);
+  --color-ring: #007aff;
+  /* Near-black SF labels (reference uses charcoal/black, not soft gray) */
+  --color-foreground: #000000;
+  --color-foreground-secondary: #3c3c43;
+  --color-foreground-muted: #6c6c70;
+  /* Royal blue accent from the Liquid Glass UI chrome */
   --color-accent: #007aff;
   --color-accent-hover: #0066d6;
-  --color-accent-muted: color-mix(in srgb, #007aff 14%, transparent);
-  --color-info: #5ac8fa;
+  --color-accent-muted: color-mix(in srgb, #007aff 12%, #ffffff);
+  --color-info: #007aff;
 
   --radius-sm: 10px;
   --radius-md: 14px;
@@ -190,105 +209,113 @@
   --radius-xl: 22px;
   --radius-2xl: 28px;
 
+  /* Neutral shadow @ ~50% */
   --shadow-sm:
-    0 1px 2px rgba(15, 23, 42, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+    0 1px 2px rgba(15, 23, 42, calc(0.06 * var(--glass-shadow) / 0.5)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
   --shadow-md:
-    0 8px 32px rgba(15, 23, 42, 0.1),
-    0 2px 8px rgba(15, 23, 42, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.25);
-  --shadow-lg:
-    0 20px 56px rgba(15, 23, 42, 0.14),
-    0 6px 16px rgba(15, 23, 42, 0.06),
+    0 8px 28px rgba(15, 23, 42, calc(0.12 * var(--glass-shadow) / 0.5)),
+    0 2px 6px rgba(15, 23, 42, calc(0.06 * var(--glass-shadow) / 0.5)),
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.3);
-  --shadow-focus: 0 0 0 3px rgba(90, 200, 250, 0.45);
+    inset 0 -0.5px 0 rgba(255, 255, 255, 0.35);
+  --shadow-lg:
+    0 18px 48px rgba(15, 23, 42, calc(0.16 * var(--glass-shadow) / 0.5)),
+    0 4px 12px rgba(15, 23, 42, calc(0.08 * var(--glass-shadow) / 0.5)),
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -0.5px 0 rgba(255, 255, 255, 0.4);
+  --shadow-focus: 0 0 0 3px rgba(0, 122, 255, 0.4);
 
-  --surface-blur: 28px;
-  --chrome-border-highlight: rgba(255, 255, 255, 0.85);
+  --surface-blur: var(--glass-blur);
+  --chrome-border-highlight: rgba(255, 255, 255, 0.92);
   --button-primary-image: none;
   --button-primary-image-hover: none;
+  /* Soft sky / cream wallpaper like the Liquid Glass canvas */
   --canvas-glow:
-    radial-gradient(ellipse 90% 60% at 8% -5%, rgba(120, 200, 255, 0.55), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 95% 5%, rgba(180, 160, 255, 0.4), transparent 50%),
-    radial-gradient(ellipse 60% 45% at 50% 110%, rgba(100, 180, 255, 0.35), transparent 55%),
-    linear-gradient(160deg, #e8eef8 0%, #d4dced 45%, #c8d5ea 100%);
+    radial-gradient(ellipse 85% 55% at 12% 0%, rgba(90, 170, 255, 0.65), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 92% 8%, rgba(160, 190, 255, 0.45), transparent 50%),
+    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(210, 230, 255, 0.7), transparent 55%),
+    linear-gradient(165deg, #eaf2ff 0%, #c5d6ef 42%, #a8bfe0 100%);
 }
 
 .dark[data-preset="glossy"],
 .dark [data-preset="glossy"] {
+  --glass-blur: 26px;
+  --glass-dark-tint: rgba(0, 0, 0, 0.45);
+
   --color-canvas: #07090f;
-  --color-surface: color-mix(in srgb, #1a1d27 88%, transparent);
+  /* Dark glass base (not pale white) so white SF labels stay readable */
+  --color-surface: color-mix(in srgb, #1a1d27 82%, transparent);
   --color-popover: color-mix(in srgb, #222632 96%, transparent);
-  --color-surface-secondary: color-mix(in srgb, #242836 82%, transparent);
-  --color-sidebar: color-mix(in srgb, #161922 86%, transparent);
-  --color-sidebar-hover: color-mix(in srgb, #2a3040 90%, transparent);
-  --color-sidebar-active: color-mix(in srgb, #5ac8fa 28%, #1a1d27);
-  --color-banner: color-mix(in srgb, #1e222e 88%, transparent);
-  --color-border: color-mix(in srgb, #ffffff 32%, transparent);
-  --color-border-subtle: color-mix(in srgb, #ffffff 20%, transparent);
-  --color-ring: #64d2ff;
-  --color-foreground: #f5f7fa;
-  --color-foreground-secondary: #c5ccd8;
-  --color-foreground-muted: #9aa3b2;
+  --color-surface-secondary: color-mix(in srgb, #2a2e3a 78%, transparent);
+  --color-sidebar: color-mix(in srgb, #14171f 86%, transparent);
+  --color-sidebar-hover: color-mix(in srgb, #2a3040 88%, transparent);
+  --color-sidebar-active: color-mix(in srgb, #0a84ff 36%, #1a1d27);
+  --color-banner: color-mix(in srgb, #1e222e 85%, transparent);
+  --color-border: color-mix(in srgb, #ffffff 22%, transparent);
+  --color-border-subtle: color-mix(in srgb, #ffffff 12%, transparent);
+  --color-ring: #0a84ff;
+  --color-foreground: #ffffff;
+  --color-foreground-secondary: rgba(235, 235, 245, 0.78);
+  --color-foreground-muted: rgba(235, 235, 245, 0.55);
   --color-accent: #0a84ff;
   --color-accent-hover: #409cff;
   --color-accent-muted: rgba(10, 132, 255, 0.28);
   --color-info: #64d2ff;
 
   --shadow-sm:
-    0 1px 2px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   --shadow-md:
-    0 12px 40px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+    0 12px 36px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
   --shadow-lg:
-    0 24px 64px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.07);
-  --shadow-focus: 0 0 0 3px rgba(100, 210, 255, 0.5);
+    0 22px 56px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  --shadow-focus: 0 0 0 3px rgba(10, 132, 255, 0.5);
 
-  --surface-blur: 32px;
-  --chrome-border-highlight: rgba(255, 255, 255, 0.35);
+  --surface-blur: var(--glass-blur);
+  --chrome-border-highlight: rgba(255, 255, 255, 0.28);
   --canvas-glow:
-    radial-gradient(ellipse 80% 55% at 10% -8%, rgba(10, 132, 255, 0.45), transparent 55%),
-    radial-gradient(ellipse 65% 45% at 95% 0%, rgba(100, 210, 255, 0.28), transparent 50%),
-    radial-gradient(ellipse 55% 40% at 40% 100%, rgba(88, 86, 214, 0.3), transparent 55%),
+    radial-gradient(ellipse 80% 55% at 10% -8%, rgba(10, 132, 255, 0.28), transparent 55%),
+    radial-gradient(ellipse 65% 45% at 95% 0%, rgba(100, 210, 255, 0.16), transparent 50%),
+    radial-gradient(ellipse 55% 40% at 40% 100%, rgba(88, 86, 214, 0.18), transparent 55%),
     linear-gradient(165deg, #0a0c14 0%, #10131c 50%, #0c1018 100%);
 }
 
-/* Colorful Glossy — glass + flask iridescent accents */
+/* Colorful Glossy — Liquid Glass base + flask iridescent accents */
 [data-preset="colorful"] {
-  --color-canvas: #f4f2f8;
-  --color-surface: color-mix(in srgb, #ffffff 90%, transparent);
-  --color-popover: color-mix(in srgb, #ffffff 97%, transparent);
-  --color-surface-secondary: color-mix(in srgb, #f5f1fa 92%, transparent);
-  --color-sidebar: color-mix(in srgb, #f8f6fc 88%, transparent);
-  --color-sidebar-hover: color-mix(in srgb, #efeaf8 94%, transparent);
-  --color-sidebar-active: color-mix(in srgb, #ebe4f5 96%, transparent);
-  --color-banner: color-mix(in srgb, #f0eaf8 92%, transparent);
-  --color-border: color-mix(in srgb, #ffffff 50%, #d5cee3);
-  --color-border-subtle: color-mix(in srgb, #ffffff 35%, #e6e0ef);
+  --glass-blur: 22px;
+  --glass-translucency: 0.5;
+  --glass-dark: 0.42;
+  --glass-shadow: 0.5;
+  --glass-dark-tint: rgba(40, 20, 70, 0.1);
+
+  --color-canvas: #ebe6f4;
+  --color-surface: color-mix(in srgb, #ffffff 50%, transparent);
+  --color-popover: color-mix(in srgb, #ffffff 94%, transparent);
+  --color-surface-secondary: color-mix(in srgb, #ffffff 42%, transparent);
+  --color-sidebar: color-mix(in srgb, #ffffff 48%, transparent);
+  --color-sidebar-hover: color-mix(in srgb, #ffffff 62%, transparent);
+  --color-sidebar-active: color-mix(in srgb, #7c3aed 16%, #ffffff);
+  --color-banner: color-mix(in srgb, #ffffff 45%, transparent);
+  --color-border: color-mix(in srgb, #ffffff 55%, #c8bfd8);
+  --color-border-subtle: color-mix(in srgb, #ffffff 40%, #ddd5eb);
   --color-ring: #a855f7;
-  --color-foreground: #1a1525;
-  --color-foreground-secondary: #6b6480;
-  --color-foreground-muted: #8b849c;
+  --color-foreground: #000000;
+  --color-foreground-secondary: #3c3c43;
+  --color-foreground-muted: #6c6c70;
   --color-accent: #7c3aed;
   --color-accent-hover: #6d28d9;
   --color-accent-muted: #f3e8ff;
   --color-danger: #ff2d6a;
   --color-danger-hover: #e0245a;
-  --color-danger-muted: #ffe8f0;
+  --color-danger-muted: color-mix(in srgb, #ff2d6a 16%, #ffffff);
   --color-warning: #ff6b14;
-  --color-warning-muted: #fff0e6;
+  --color-warning-muted: color-mix(in srgb, #ff6b14 16%, #ffffff);
   --color-success: #14b8a6;
-  --color-success-muted: #e6faf7;
+  --color-success-muted: color-mix(in srgb, #14b8a6 16%, #ffffff);
   --color-info: #1a6bff;
-  --color-info-muted: #e5efff;
+  --color-info-muted: color-mix(in srgb, #1a6bff 16%, #ffffff);
   --color-overlay: rgba(26, 21, 37, 0.4);
 
   --radius-sm: 8px;
@@ -308,47 +335,52 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
   --shadow-focus: 0 0 0 3px rgba(168, 85, 247, 0.4);
 
-  --surface-blur: 18px;
-  --chrome-border-highlight: rgba(255, 255, 255, 0.7);
+  --surface-blur: var(--glass-blur);
+  --chrome-border-highlight: rgba(255, 255, 255, 0.9);
   --button-primary-image: linear-gradient(135deg, #00e0ff 0%, #7c3aed 45%, #ff2d9a 100%);
   --button-primary-image-hover: linear-gradient(135deg, #67e8f9 0%, #6d28d9 45%, #ff6b9d 100%);
   --canvas-glow:
-    radial-gradient(ellipse 70% 45% at 10% -5%, rgba(0, 224, 255, 0.2), transparent 55%),
-    radial-gradient(ellipse 55% 40% at 90% 0%, rgba(255, 45, 154, 0.16), transparent 50%),
-    radial-gradient(ellipse 50% 35% at 50% 100%, rgba(124, 58, 237, 0.12), transparent 55%);
+    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(0, 224, 255, 0.35), transparent 55%),
+    radial-gradient(ellipse 65% 45% at 95% 5%, rgba(255, 45, 154, 0.28), transparent 50%),
+    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(124, 58, 237, 0.22), transparent 55%),
+    linear-gradient(165deg, #f3eeff 0%, #e0d6f5 45%, #cfc0ea 100%);
 }
 
 .dark[data-preset="colorful"],
 .dark [data-preset="colorful"] {
-  --color-canvas: #12101a;
-  --color-surface: color-mix(in srgb, #1e1a28 88%, transparent);
+  --glass-blur: 26px;
+  --glass-dark-tint: rgba(8, 4, 18, 0.5);
+
+  --color-canvas: #0e0c14;
+  /* Opaque-enough dark purple glass — bright glow must not wash out white type */
+  --color-surface: color-mix(in srgb, #1e1a28 84%, transparent);
   --color-popover: color-mix(in srgb, #262230 96%, transparent);
-  --color-surface-secondary: color-mix(in srgb, #2a2536 84%, transparent);
-  --color-sidebar: color-mix(in srgb, #1a1622 86%, transparent);
-  --color-sidebar-hover: color-mix(in srgb, #2e283c 90%, transparent);
-  --color-sidebar-active: color-mix(in srgb, #a855f7 32%, #1e1a28);
-  --color-banner: color-mix(in srgb, #221e2c 88%, transparent);
-  --color-border: color-mix(in srgb, #ffffff 28%, transparent);
-  --color-border-subtle: color-mix(in srgb, #ffffff 18%, transparent);
+  --color-surface-secondary: color-mix(in srgb, #2a2536 80%, transparent);
+  --color-sidebar: color-mix(in srgb, #16131e 88%, transparent);
+  --color-sidebar-hover: color-mix(in srgb, #2e283c 88%, transparent);
+  --color-sidebar-active: color-mix(in srgb, #a855f7 36%, #1e1a28);
+  --color-banner: color-mix(in srgb, #221e2c 86%, transparent);
+  --color-border: color-mix(in srgb, #ffffff 20%, transparent);
+  --color-border-subtle: color-mix(in srgb, #ffffff 12%, transparent);
   --color-ring: #c084fc;
-  --color-foreground: #faf8ff;
-  --color-foreground-secondary: #d4cee6;
-  --color-foreground-muted: #b0a8c4;
+  --color-foreground: #ffffff;
+  --color-foreground-secondary: rgba(235, 235, 245, 0.78);
+  --color-foreground-muted: rgba(235, 235, 245, 0.55);
   --color-accent: #c084fc;
   --color-accent-hover: #d8b4fe;
   --color-accent-muted: rgba(168, 85, 247, 0.32);
   --color-danger: #ff4d8a;
   --color-danger-hover: #ff6b9d;
-  --color-danger-muted: rgba(255, 45, 106, 0.22);
+  --color-danger-muted: color-mix(in srgb, #ff4d8a 28%, #1e1a28);
   --color-warning: #fb923c;
-  --color-warning-muted: rgba(255, 107, 20, 0.22);
+  --color-warning-muted: color-mix(in srgb, #fb923c 28%, #1e1a28);
   --color-success: #2dd4bf;
-  --color-success-muted: rgba(20, 184, 166, 0.22);
+  --color-success-muted: color-mix(in srgb, #2dd4bf 28%, #1e1a28);
   --color-info: #38bdf8;
-  --color-info-muted: rgba(26, 107, 255, 0.28);
+  --color-info-muted: color-mix(in srgb, #38bdf8 28%, #1e1a28);
   --color-overlay: rgba(0, 0, 0, 0.55);
 
-  --surface-blur: 28px;
+  --surface-blur: var(--glass-blur);
   --shadow-sm:
     0 1px 2px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.16);
@@ -360,13 +392,14 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   --shadow-focus: 0 0 0 3px rgba(192, 132, 252, 0.5);
 
-  --chrome-border-highlight: rgba(255, 255, 255, 0.32);
+  --chrome-border-highlight: rgba(255, 255, 255, 0.28);
   --button-primary-image: linear-gradient(135deg, #38bdf8 0%, #a855f7 45%, #ff4d8a 100%);
   --button-primary-image-hover: linear-gradient(135deg, #7dd3fc 0%, #c084fc 45%, #ff6b9d 100%);
   --canvas-glow:
-    radial-gradient(ellipse 70% 45% at 10% -5%, rgba(56, 189, 248, 0.28), transparent 55%),
-    radial-gradient(ellipse 55% 40% at 90% 0%, rgba(255, 77, 138, 0.24), transparent 50%),
-    radial-gradient(ellipse 50% 35% at 50% 100%, rgba(168, 85, 247, 0.22), transparent 55%);
+    radial-gradient(ellipse 70% 45% at 10% -5%, rgba(56, 189, 248, 0.18), transparent 55%),
+    radial-gradient(ellipse 55% 40% at 90% 0%, rgba(255, 77, 138, 0.14), transparent 50%),
+    radial-gradient(ellipse 50% 35% at 50% 100%, rgba(168, 85, 247, 0.16), transparent 55%),
+    linear-gradient(165deg, #100e18 0%, #16121f 50%, #0e0c14 100%);
 }
 
 /* Chrome polish driven by preset vars */
@@ -399,24 +432,27 @@
 [data-preset="colorful"] [data-chrome="panel"] {
   isolation: isolate;
   overflow: hidden;
-  backdrop-filter: blur(var(--surface-blur)) saturate(1.55);
-  -webkit-backdrop-filter: blur(var(--surface-blur)) saturate(1.55);
+  /* Blur 21.8% + slight saturate so wallpaper color bleeds through */
+  backdrop-filter: blur(var(--surface-blur)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--surface-blur)) saturate(1.8);
   box-shadow: var(--shadow-md);
   border-width: 1px;
   border-style: solid;
   border-color: color-mix(
     in srgb,
-    var(--color-border) 40%,
+    var(--color-border) 35%,
     var(--chrome-border-highlight)
   );
   background-color: var(--color-surface);
-  /* Soft sheen only — keep base fill opaque enough for readable text */
-  background-image: linear-gradient(
-    155deg,
-    color-mix(in srgb, #ffffff 22%, transparent) 0%,
-    transparent 42%,
-    color-mix(in srgb, #ffffff 10%, transparent) 100%
-  );
+  /* Dark tint (42%) under specular sheen — Liquid Glass stack */
+  background-image:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, #ffffff 55%, transparent) 0%,
+      color-mix(in srgb, #ffffff 22%, transparent) 48%,
+      color-mix(in srgb, #ffffff 38%, transparent) 100%
+    ),
+    linear-gradient(var(--glass-dark-tint, rgba(15, 23, 42, 0.1)), var(--glass-dark-tint, rgba(15, 23, 42, 0.1)));
 }
 
 .dark[data-preset="glossy"] [data-chrome="sidebar"],
@@ -427,12 +463,15 @@
 .dark[data-preset="colorful"] [data-chrome="header"],
 .dark[data-preset="colorful"] [data-chrome="dialog"],
 .dark[data-preset="colorful"] [data-chrome="panel"] {
-  background-image: linear-gradient(
-    155deg,
-    color-mix(in srgb, #ffffff 10%, transparent) 0%,
-    transparent 50%,
-    color-mix(in srgb, #ffffff 6%, transparent) 100%
-  );
+  /* Keep fill dark — only a faint specular highlight, not a pale wash */
+  background-image:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, #ffffff 10%, transparent) 0%,
+      transparent 42%,
+      color-mix(in srgb, #ffffff 4%, transparent) 100%
+    ),
+    linear-gradient(var(--glass-dark-tint, rgba(0, 0, 0, 0.45)), var(--glass-dark-tint, rgba(0, 0, 0, 0.45)));
 }
 
 /* Menus / selects / floating layers — near-opaque so content never bleeds through */
@@ -478,15 +517,17 @@
   z-index: 1;
 }
 
-/* Specular rim — behind content so text stays crisp */
+/* Specular rim (Specular = on) — bright top edge + soft inner glass lip */
 [data-preset="glossy"] [data-chrome="sidebar"]::before,
 [data-preset="glossy"] [data-chrome="header"]::before,
 [data-preset="glossy"] [data-chrome="dialog"]::before,
 [data-preset="glossy"] [data-chrome="panel"]::before,
+[data-preset="glossy"] [data-chrome="popover"]::before,
 [data-preset="colorful"] [data-chrome="sidebar"]::before,
 [data-preset="colorful"] [data-chrome="header"]::before,
 [data-preset="colorful"] [data-chrome="dialog"]::before,
-[data-preset="colorful"] [data-chrome="panel"]::before {
+[data-preset="colorful"] [data-chrome="panel"]::before,
+[data-preset="colorful"] [data-chrome="popover"]::before {
   content: "";
   pointer-events: none;
   position: absolute;
@@ -495,7 +536,8 @@
   border-radius: inherit;
   box-shadow:
     inset 0 1px 0 var(--chrome-border-highlight),
-    inset 0 0 0 1px color-mix(in srgb, var(--chrome-border-highlight) 45%, transparent);
+    inset 0 0 0 0.5px color-mix(in srgb, var(--chrome-border-highlight) 55%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, #000000 6%, transparent);
 }
 
 [data-preset="glossy"] [data-chrome="dialog"],
@@ -555,6 +597,27 @@
   --shadow-focus: var(--shadow-focus);
 
   --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+}
+
+/* Liquid Glass typography — SF optical sizing + near-black labels */
+[data-preset="glossy"],
+[data-preset="colorful"] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01" on, "cv11" on;
+  letter-spacing: -0.011em;
+}
+
+[data-preset="glossy"] h1,
+[data-preset="glossy"] h2,
+[data-preset="glossy"] h3,
+[data-preset="colorful"] h1,
+[data-preset="colorful"] h2,
+[data-preset="colorful"] h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.022em;
+  font-weight: 600;
 }
 
 /*

@@ -8,14 +8,15 @@ import { cn } from "../../lib/utils";
 import { Button } from "./button";
 
 const toastVariants = cva(
-  "pointer-events-auto relative flex w-full items-start gap-3 rounded-xl border bg-popover p-4 shadow-lg",
+  /* Always opaque popover fill — never rely on translucent *-muted alone */
+  "pointer-events-auto relative flex w-full items-start gap-3 rounded-xl border border-border bg-popover p-4 shadow-lg",
   {
     variants: {
       variant: {
-        default: "border-border",
-        success: "border-success/40 bg-success-muted",
-        error: "border-danger/40 bg-danger-muted",
-        warning: "border-warning/40 bg-warning-muted",
+        default: "",
+        success: "border-l-4 border-l-success",
+        error: "border-l-4 border-l-danger",
+        warning: "border-l-4 border-l-warning",
       },
     },
     defaultVariants: {
@@ -68,6 +69,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {toasts.map((t) => (
           <ToastPrimitive.Root
             key={t.id}
+            data-chrome="popover"
             className={cn(toastVariants({ variant: t.variant }))}
             onOpenChange={(open) => {
               if (!open) dismiss(t.id);
@@ -90,7 +92,8 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             </ToastPrimitive.Close>
           </ToastPrimitive.Root>
         ))}
-        <ToastPrimitive.Viewport className="fixed bottom-4 right-4 z-[110] flex w-[min(100vw-2rem,380px)] flex-col gap-2 outline-none" />
+        {/* Sit above the shell theme FABs (bottom-4) so icons don’t show through */}
+        <ToastPrimitive.Viewport className="fixed bottom-16 right-4 z-[110] flex w-[min(100vw-2rem,380px)] flex-col gap-2 outline-none lg:bottom-16" />
       </ToastPrimitive.Provider>
     </ToastContext.Provider>
   );

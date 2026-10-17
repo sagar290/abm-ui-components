@@ -65,11 +65,22 @@ export const designTokens = {
   },
   fonts: {
     sans: [
-      "-apple-system",
-      "BlinkMacSystemFont",
       "SF Pro Text",
       "SF Pro Display",
-      "Inter",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      "system-ui",
+      "Segoe UI",
+      "Helvetica Neue",
+      "Arial",
+      "sans-serif",
+    ],
+    display: [
+      "SF Pro Display",
+      "SF Pro Text",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      "system-ui",
       "Segoe UI",
       "Helvetica Neue",
       "Arial",
@@ -140,6 +151,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: "var(--font-sans)",
+        display: "var(--font-display)",
       },
     },
   },
