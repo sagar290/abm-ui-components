@@ -13,6 +13,10 @@ npm install git+https://github.com/sagar290/abm-ui-components.git#1.4.0
 
 Current kit tag: **`1.4.0`** (semver: `1.0.0` … `1.4.0`, …). Living catalog: `/design-system` in this app, or optional GitHub Pages (see below).
 
+## Support
+
+If this kit helps your project, you can [support via Wise](https://wise.com/pay/r/cwvY1WWWGbRmCqs). Thank you.
+
 ## Screenshots
 
 ### Users
