@@ -10,6 +10,7 @@ import {
   FolderOpen,
   History,
   LayoutGrid,
+  LogIn,
   MapPin,
   MonitorSmartphone,
   Settings,
@@ -22,10 +23,17 @@ import { Avatar } from "./avatar";
 import { BrandMark } from "./brand-mark";
 import { Button } from "./button";
 import { Select } from "./select";
-import { SidebarItem } from "./sidebar-item";
-import type { ChecklistItem, NavGroup, NavItem, Organization } from "../../types";
+import { SidebarItem, type SidebarSubItem } from "./sidebar-item";
+import type {
+  ChecklistItem,
+  NavGroup,
+  NavItem,
+  NavSubItem,
+  Organization,
+} from "../../types";
 
 const iconById: Record<string, React.ReactNode> = {
+  login: <LogIn className="h-4 w-4" strokeWidth={1.75} />,
   subscription: <CreditCard className="h-4 w-4" strokeWidth={1.75} />,
   activity: <Activity className="h-4 w-4" strokeWidth={1.75} />,
   locations: <MapPin className="h-4 w-4" strokeWidth={1.75} />,
@@ -113,12 +121,10 @@ export function Sidebar({
                           <LayoutGrid className="h-4 w-4" strokeWidth={1.75} />
                         )
                       }
-                      active={
-                        activeHref === item.href ||
-                        activeHref.startsWith(`${item.href}/`)
-                      }
+                      active={isNavActive(activeHref, item.href)}
                       alertCount={alert}
                       onClick={onNavigate}
+                      items={mapSubItems(item.children, activeHref, onNavigate)}
                     />
                   </li>
                 );
@@ -193,4 +199,24 @@ export function Sidebar({
       </div>
     </nav>
   );
+}
+
+function isNavActive(activeHref: string, href: string) {
+  return activeHref === href || activeHref.startsWith(`${href}/`);
+}
+
+function mapSubItems(
+  children: NavSubItem[] | undefined,
+  activeHref: string,
+  onNavigate?: () => void
+): SidebarSubItem[] | undefined {
+  if (!children?.length) return undefined;
+  return children.map((child) => ({
+    href: child.href,
+    label: child.label,
+    active: isNavActive(activeHref, child.href),
+    alertCount: child.alertCount,
+    onClick: onNavigate,
+    items: mapSubItems(child.children, activeHref, onNavigate),
+  }));
 }

@@ -98,7 +98,7 @@ export { Sidebar } from "./sidebar";
 export type { SidebarProps } from "./sidebar";
 
 export { SidebarItem } from "./sidebar-item";
-export type { SidebarItemProps } from "./sidebar-item";
+export type { SidebarItemProps, SidebarSubItem } from "./sidebar-item";
 
 export { StatusItem } from "./status-item";
 export type { StatusItemProps } from "./status-item";

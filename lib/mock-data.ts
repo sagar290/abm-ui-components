@@ -35,18 +35,23 @@ export const navItems: NavItem[] = [
     href: "/locations",
     group: "deployment",
   },
-  { id: "users", label: "Users", href: "/users", group: "accounts" },
   {
-    id: "user-groups",
-    label: "User Groups",
-    href: "/user-groups",
+    id: "users",
+    label: "Users",
+    href: "/users",
     group: "accounts",
-  },
-  {
-    id: "access",
-    label: "Access Management",
-    href: "/access-management",
-    group: "accounts",
+    children: [
+      {
+        id: "user-groups",
+        label: "User Groups",
+        href: "/user-groups",
+      },
+      {
+        id: "access",
+        label: "Access Management",
+        href: "/access-management",
+      },
+    ],
   },
   {
     id: "devices",
@@ -54,21 +59,38 @@ export const navItems: NavItem[] = [
     href: "/devices",
     group: "assets",
     alertCount: 2,
+    children: [
+      {
+        id: "assignment-history",
+        label: "Assignment History",
+        href: "/assignment-history",
+      },
+    ],
   },
   {
-    id: "assignment-history",
-    label: "Assignment History",
-    href: "/assignment-history",
-    group: "assets",
+    id: "settings",
+    label: "Settings",
+    href: "/settings",
+    group: "content",
+    children: [
+      {
+        id: "collections",
+        label: "Collections",
+        href: "/collections",
+      },
+      {
+        id: "apps",
+        label: "Apps",
+        href: "/apps",
+      },
+    ],
   },
   {
-    id: "collections",
-    label: "Collections",
-    href: "/collections",
+    id: "login",
+    label: "Login",
+    href: "/login",
     group: "content",
   },
-  { id: "settings", label: "Settings", href: "/settings", group: "content" },
-  { id: "apps", label: "Apps", href: "/apps", group: "content" },
 ];
 
 export const appsCatalog: AppCatalogItem[] = [

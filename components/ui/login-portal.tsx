@@ -10,6 +10,7 @@ import { DomainSelect } from "./domain-select";
 import { FormField } from "./form-field";
 import { InlineAlert } from "./inline-alert";
 import { PasswordField } from "./password-field";
+import { SupportFab } from "./support-fab";
 import { ThemeCustomizer } from "./theme-customizer";
 import { ThemePresetMenu } from "./theme-preset-menu";
 import { ThemeToggle } from "./theme-toggle";
@@ -100,12 +101,13 @@ export function LoginPortal({
       className={cn(loginPortalVariants({ density }), className)}
     >
       {showThemeControls && (
-        <div className="absolute right-4 top-4 flex items-center gap-2 sm:right-6 sm:top-6">
-          <ThemeCustomizer />
-          <ThemePresetMenu />
-          <ThemeToggle appearance="segmented" />
+        <div className="pointer-events-none absolute bottom-[4.75rem] right-4 z-30 flex gap-2">
+          <ThemeCustomizer className="pointer-events-auto" />
+          <ThemePresetMenu className="pointer-events-auto" />
+          <ThemeToggle className="pointer-events-auto" />
         </div>
       )}
+      <SupportFab />
 
       <div className="flex flex-col items-center gap-3 text-center">
         <BrandMark className="scale-110" />

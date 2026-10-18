@@ -382,7 +382,10 @@ export default function DesignSystemPage() {
           </div>
         </CatalogSection>
 
-        <CatalogSection title="ListItem · SidebarItem">
+        <CatalogSection
+          title="ListItem · SidebarItem"
+          description="SidebarItem supports expandable submenus via items; open when a child is active."
+        >
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1 rounded-xl border border-border-subtle p-2">
               <ListItem
@@ -402,7 +405,23 @@ export default function DesignSystemPage() {
               />
             </div>
             <div className="space-y-1 rounded-xl bg-sidebar p-2">
-              <SidebarItem href="/users" label="Users" active />
+              <SidebarItem
+                href="/users"
+                label="Users"
+                active
+                defaultOpen
+                items={[
+                  {
+                    href: "/user-groups",
+                    label: "User Groups",
+                  },
+                  {
+                    href: "/access-management",
+                    label: "Access Management",
+                    active: true,
+                  },
+                ]}
+              />
               <SidebarItem href="/devices" label="Devices" alertCount={2} />
               <SidebarItem href="/settings" label="Settings" />
             </div>
@@ -411,7 +430,7 @@ export default function DesignSystemPage() {
 
         <CatalogSection
           title="DetailToolbar · ToolbarAction · ActionMenu"
-          description="ABM icon+label actions with More overflow via ActionMenu."
+          description="ABM icon+label actions with More overflow via ActionMenu. Nested children render as a submenu."
         >
           <DetailToolbar
             moreSlot={
@@ -421,6 +440,24 @@ export default function DesignSystemPage() {
                     id: "edit-info",
                     label: "Edit Info",
                     onSelect: () => toast({ title: "Edit Info (demo)" }),
+                  },
+                  {
+                    id: "security",
+                    label: "Security",
+                    children: [
+                      {
+                        id: "reset-password",
+                        label: "Reset Password",
+                        onSelect: () =>
+                          toast({ title: "Reset Password (demo)" }),
+                      },
+                      {
+                        id: "create-signin",
+                        label: "Create Sign-In",
+                        onSelect: () =>
+                          toast({ title: "Create Sign-In (demo)" }),
+                      },
+                    ],
                   },
                   {
                     id: "deactivate",

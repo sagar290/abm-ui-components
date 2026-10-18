@@ -85,12 +85,23 @@ export type NavGroup =
   | "assets"
   | "content";
 
+/** Nested sidebar link (one or more levels under a NavItem). */
+export interface NavSubItem {
+  id: string;
+  label: string;
+  href: string;
+  alertCount?: number;
+  children?: NavSubItem[];
+}
+
 export interface NavItem {
   id: string;
   label: string;
   href: string;
   group: NavGroup;
   alertCount?: number;
+  /** Expandable submenu entries under this item */
+  children?: NavSubItem[];
 }
 
 export interface AppCatalogItem {
